@@ -27,6 +27,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <img
+          src="/images/background.png"
+          alt="background"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full -z-10"
+        />
         {children}
       </body>
     </html>
