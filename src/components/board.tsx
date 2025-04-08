@@ -1,12 +1,11 @@
-import { Board as BoardType, Tile as TileType } from "../utils/game";
-import { cn } from "../utils/cn";
+import { cn, Board as BoardType, Tile as TileType } from "~/utils";
+import { useGameStore } from "~/lib/game-store";
 
 interface BoardProps {
   board: BoardType;
-  currentPosition?: number;
 }
 
-export function Board({ board, currentPosition }: BoardProps) {
+export function Board({ board }: BoardProps) {
   // Simple slicing into 4 sides
   const top = board.slice(0, 7);
   const right = board.slice(7, 12);
@@ -18,11 +17,7 @@ export function Board({ board, currentPosition }: BoardProps) {
       {/* Top row */}
       <div className="flex justify-center gap-2.5">
         {top.map((tile) => (
-          <Tile
-            key={tile.position}
-            tile={tile}
-            isActive={currentPosition === tile.position}
-          />
+          <Tile key={tile.position} tile={tile} />
         ))}
       </div>
 
@@ -31,22 +26,14 @@ export function Board({ board, currentPosition }: BoardProps) {
         {/* Left column */}
         <div className="flex flex-col gap-2.5">
           {left.map((tile) => (
-            <Tile
-              key={tile.position}
-              tile={tile}
-              isActive={currentPosition === tile.position}
-            />
+            <Tile key={tile.position} tile={tile} />
           ))}
         </div>
 
         {/* Right column */}
         <div className="flex flex-col gap-2.5">
           {right.map((tile) => (
-            <Tile
-              key={tile.position}
-              tile={tile}
-              isActive={currentPosition === tile.position}
-            />
+            <Tile key={tile.position} tile={tile} />
           ))}
         </div>
       </div>
@@ -54,11 +41,7 @@ export function Board({ board, currentPosition }: BoardProps) {
       {/* Bottom row */}
       <div className="flex items-end gap-2.5">
         {bottom.map((tile) => (
-          <Tile
-            key={tile.position}
-            tile={tile}
-            isActive={currentPosition === tile.position}
-          />
+          <Tile key={tile.position} tile={tile} />
         ))}
       </div>
     </div>
@@ -67,10 +50,11 @@ export function Board({ board, currentPosition }: BoardProps) {
 
 interface TileProps {
   tile: TileType;
-  isActive?: boolean;
 }
 
-function Tile({ tile, isActive }: TileProps) {
+function Tile({ tile }: TileProps) {
+  const isActive = useGameStore((state) => state.position === tile.position);
+
   const isBuilding = tile.type !== "regular";
   const isBigBuilding = tile.type === "mansion" || tile.type === "skyscraper";
 

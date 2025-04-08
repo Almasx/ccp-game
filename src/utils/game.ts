@@ -74,8 +74,10 @@ export function createBoard(): Board {
 export function getNextPosition(
   currentPosition: Position,
   direction: Direction,
+  moveSize: number = 1,
   boardSize: number = 24
 ): Position {
-  const nextPos = (currentPosition + direction + boardSize) % boardSize;
+  const nextPos =
+    (currentPosition + direction * moveSize + boardSize) % boardSize;
   return nextPos >= 0 ? nextPos : boardSize + nextPos;
 }
