@@ -1,6 +1,9 @@
 import { cn } from "~/utils";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useGameStore } from "~/lib/game-store";
+import Button from "./button";
+import { AnimatePresence, motion } from "motion/react";
+import { drawCardEvent } from "~/lib/events";
 
 export const Controls = () => {
   return (
@@ -9,12 +12,7 @@ export const Controls = () => {
         <Gems />
         <GPA />
       </div>
-      <div className="flex flex-col w-80 h-full border-l border-neutral-200 items-center justify-center">
-        <span className="text-2xl font-semibold mt-1 text-neutral-500">
-          Roll a dice
-        </span>
-        <div className="flex items-center justify-center text-4xl">🎲</div>
-      </div>
+      <Panel />
       <Cards />
     </div>
   );
@@ -83,20 +81,40 @@ const Cards = () => {
   const card = useMemo(() => {
     return <img src="/images/card.svg" alt="Card" className="w-28" />;
   }, []);
+  const [drawing, setDrawing] = useState(false);
+
+  const drawCard = useGameStore((state) => state.drawCard);
+
+  const handleDrawCard = () => {
+    setDrawing(true);
+    drawCard();
+    drawCardEvent();
+    setTimeout(() => {
+      setDrawing(false);
+    }, 1000);
+  };
 
   return (
-    <div className="flex flex-col w-80 h-full border-l relative border-neutral-200 items-center justify-center rounded-r-2xl">
+    <div className="flex flex-col w-40 h-full border-l relative border-neutral-200 items-center justify-center rounded-r-2xl">
+      <button className="relative z-10" onClick={handleDrawCard}>
+        Draw Card
+      </button>
       <div className="overflow-hidden h-36 absolute bottom-0 w-[9rem] group/cards">
         {Array.from({ length: 8 }).map((_, index) => {
+          const isLast = index === 7;
           const isEven = index % 2 === 0;
           const degree = Math.random() * 10 * (isEven ? 1 : -1);
 
+          const defaultY = 30 + index * 2;
+
           return (
-            <div
-              key={index}
+            <motion.div
+              key={`card-${index}`}
+              animate={{
+                y: drawing && isLast ? "100%" : defaultY,
+              }}
               style={
                 {
-                  transform: `translateY(${30 + index * 2}px)`,
                   "--random": `${degree}deg`,
                 } as React.CSSProperties
               }
@@ -108,10 +126,119 @@ const Cards = () => {
               )}
             >
               {card}
-            </div>
+            </motion.div>
           );
         })}
       </div>
+    </div>
+  );
+};
+
+const Panel = () => {
+  const [status, setStatus] = useState<"idle" | "reveal" | "pending_action">(
+    "idle"
+  );
+  const [number, setNumber] = useState<number>(0);
+
+  const move = useGameStore((state) => state.move);
+
+  const handleRoll = () => {
+    setStatus("reveal");
+    setNumber(Math.floor(Math.random() * 6) + 1);
+    setTimeout(() => {
+      setStatus("pending_action");
+    }, 2000);
+  };
+
+  return (
+    <div className="flex flex-col overflow-hidden w-80 h-full border-l border-neutral-200 items-center justify-center">
+      <AnimatePresence mode="wait">
+        {status === "idle" && (
+          <motion.span
+            key="top"
+            initial={{ opacity: 0, filter: "blur(4px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, filter: "blur(4px)" }}
+            transition={{ duration: 0.3 }}
+            className="font-semibold text-neutral-500"
+          >
+            <Button
+              onClick={handleRoll}
+              className="inline-flex scale-[0.6] py-1 -mx-2 text-xl"
+            >
+              Roll
+            </Button>
+            a dice
+          </motion.span>
+        )}
+        {status === "idle" && (
+          <motion.div
+            key="bottom"
+            initial={{ y: "150%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "150%" }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center justify-center text-5xl mt-0.5 mb-2"
+          >
+            🎲
+          </motion.div>
+        )}
+        {status === "reveal" && (
+          <motion.div
+            key="reveal number"
+            initial={{ opacity: 0, filter: "blur(4px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, filter: "blur(4px)" }}
+            transition={{ duration: 0.3 }}
+            className="font-semibold text-neutral-500"
+          >
+            You picked
+          </motion.div>
+        )}
+        {status === "reveal" && (
+          <motion.div
+            key="number"
+            initial={{ y: "150%" }}
+            animate={{ y: 0 }}
+            exit={{
+              opacity: 0,
+              filter: "blur(4px)",
+              transition: { duration: 0.3 },
+            }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center font-semibold justify-center italic text-5xl mt-0.5 mb-2"
+          >
+            {number}
+          </motion.div>
+        )}
+        {status === "pending_action" && (
+          <motion.div
+            key="pending action"
+            initial={{ opacity: 0, filter: "blur(4px)" }}
+            animate={{ opacity: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, filter: "blur(4px)" }}
+            transition={{ duration: 0.3 }}
+            className="size-full flex justify-between items-center px-9 text-xl"
+          >
+            <Button
+              onClick={() => {
+                move(number, -1);
+                setStatus("idle");
+              }}
+            >
+              -{number} back
+            </Button>
+            <Button
+              onClick={() => {
+                move(number, 1);
+                setStatus("idle");
+              }}
+            >
+              +{number} forward
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
