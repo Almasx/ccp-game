@@ -10,7 +10,7 @@ import {
   processChoice,
   Neighborhood,
 } from "./cards";
-
+import { drawCardEvent } from "./events";
 interface GameState {
   // State
   gems: number;
@@ -46,6 +46,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     set((state) => {
       const position = getNextPosition(state.position, direction, spaces);
       // Update neighborhood based on position
+      state.drawCard();
 
       return {
         position,
@@ -64,6 +65,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   drawCard: () => {
     set((state) => {
       const { card, remainingDeck } = drawCard(state.deck, state.neighborhood);
+      drawCardEvent();
       return {
         deck: remainingDeck,
         currentCard: card,

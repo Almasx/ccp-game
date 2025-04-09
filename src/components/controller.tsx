@@ -3,11 +3,12 @@ import { useMemo, useState } from "react";
 import { useGameStore } from "~/lib/game-store";
 import Button from "./button";
 import { AnimatePresence, motion } from "motion/react";
-import { drawCardEvent } from "~/lib/events";
+import { EVENTS } from "~/lib/events";
+import { useEventListener } from "~/hooks";
 
 export const Controls = () => {
   return (
-    <div className="mt-auto bg-white border-2 border-neutral-300 rounded-2xl flex h-24 ">
+    <div className="mt-auto bg-white border-2 border-neutral-300 rounded-2xl flex h-24 fixed bottom-4 left-1/2 -translate-x-1/2 z-30">
       <div className="flex flex-col w-20 h-full">
         <Gems />
         <GPA />
@@ -77,58 +78,53 @@ const GPA = () => {
   );
 };
 
+const generateId = () => {
+  return Math.random().toString(36).substring(2, 10);
+};
+
 const Cards = () => {
   const card = useMemo(() => {
     return <img src="/images/card.svg" alt="Card" className="w-28" />;
   }, []);
-  const [drawing, setDrawing] = useState(false);
 
-  const drawCard = useGameStore((state) => state.drawCard);
+  const [deck, setDeck] = useState(Array.from({ length: 8 }, generateId));
 
-  const handleDrawCard = () => {
-    setDrawing(true);
-    drawCard();
-    drawCardEvent();
-    setTimeout(() => {
-      setDrawing(false);
-    }, 1000);
-  };
+  useEventListener(EVENTS.DRAW_CARD, () => {
+    setDeck((d) => d.slice(0, -1));
+    setTimeout(() => setDeck((d) => [generateId()].concat(d)), 1000);
+  });
 
   return (
     <div className="flex flex-col w-40 h-full border-l relative border-neutral-200 items-center justify-center rounded-r-2xl">
-      <button className="relative z-10" onClick={handleDrawCard}>
-        Draw Card
-      </button>
       <div className="overflow-hidden h-36 absolute bottom-0 w-[9rem] group/cards">
-        {Array.from({ length: 8 }).map((_, index) => {
-          const isLast = index === 7;
-          const isEven = index % 2 === 0;
-          const degree = Math.random() * 10 * (isEven ? 1 : -1);
+        <AnimatePresence>
+          {deck.map((id, index) => {
+            const isEven = index % 2 === 0;
+            const degree = Math.random() * 10 * (isEven ? 1 : -1);
 
-          const defaultY = 30 + index * 2;
-
-          return (
-            <motion.div
-              key={`card-${index}`}
-              animate={{
-                y: drawing && isLast ? "100%" : defaultY,
-              }}
-              style={
-                {
-                  "--random": `${degree}deg`,
-                } as React.CSSProperties
-              }
-              className={cn(
-                "w-28 absolute -translate-x-1/2 left-1/2 transition-transform duration-300 transform-gpu",
-                "group-hover/cards:translate-y-[-15px] group-hover/cards:rotate-[var(--random)]",
-                "origin-bottom",
-                isEven ? "rotate-2" : "-rotate-1"
-              )}
-            >
-              {card}
-            </motion.div>
-          );
-        })}
+            return (
+              <motion.div
+                key={`card-${id}`}
+                initial={{ y: 30 + index * 2 }}
+                animate={{ y: 30 + index * 2 }}
+                exit={{ y: 30 + index * 2 + 1000 }}
+                style={
+                  {
+                    "--random": `${degree}deg`,
+                  } as React.CSSProperties
+                }
+                className={cn(
+                  "w-28 absolute -translate-x-1/2 left-1/2 transition-transform duration-300 transform-gpu",
+                  "group-hover/cards:translate-y-[-15px] group-hover/cards:rotate-[var(--random)]",
+                  "origin-bottom",
+                  isEven ? "rotate-2" : "-rotate-1"
+                )}
+              >
+                {card}
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
     </div>
   );
