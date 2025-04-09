@@ -1,19 +1,24 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
-import ReactDOM from "react-dom";
-import { useEventListener } from "~/hooks";
+import { createPortal } from "react-dom";
+import { useEventListener, useMount } from "~/hooks";
 import { EVENTS } from "~/lib/events";
 import { useGameStore } from "~/lib/game-store";
 
 export const CardReveal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { currentCard } = useGameStore();
+  const isMounted = useMount();
 
   useEventListener(EVENTS.DRAW_CARD, () => {
     setIsOpen(true);
+
+    setTimeout(() => setIsOpen(false), 3000);
   });
 
-  return ReactDOM.createPortal(
+  if (!isMounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {/* Backdrop */}
       {isOpen && (
@@ -40,12 +45,12 @@ export const CardReveal = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white space-y-4 rounded-2xl min-h-64 w-48 border-4 border-yellow-300 ring-4 ring-white shadow-sm p-4 pt-6"
+            className="bg-white flex flex-col gap-y-4 rounded-2xl min-w-48 max-w-56 aspect-[4/5] border-4 border-yellow-300 ring-4 ring-white shadow-sm p-4 pt-6"
           >
             <h1 className="text-2xl grow leading-none font-bold text-neutral-800">
               {currentCard?.title}
             </h1>
-            <p className="text-neutral-600">{currentCard?.description}</p>
+            <p className="text-neutral-600 grow">{currentCard?.description}</p>
             <img
               src="/icons/q-mark.svg"
               alt="Question mark"

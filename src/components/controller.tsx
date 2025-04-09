@@ -13,7 +13,8 @@ export const Controls = () => {
         <Gems />
         <GPA />
       </div>
-      <Panel />
+      <MovePanel />
+      {/* <SituationPanel /> */}
       <Cards />
     </div>
   );
@@ -130,7 +131,33 @@ const Cards = () => {
   );
 };
 
-const Panel = () => {
+const SituationPanel = () => {
+  return (
+    <div className="flex flex-col overflow-hidden w-80 h-full border-l border-neutral-200 items-center justify-center">
+      <div className="gap-4 flex justify-center items-center">
+        <div className="gap-0.5 flex flex-col items-center text-[#3EBDFE]">
+          <span className="text-sm font-medium">You lost</span>
+          <div className="flex italic text-4xl font-semibold gap-3 items-center">
+            -2 <img src="/images/gem.png" alt="Gem" className="size-8" />
+          </div>
+        </div>
+
+        <span className="text-3xl italic text-neutral-400 font-semibold">
+          &
+        </span>
+
+        <div className="gap-0.5 flex flex-col items-center text-[#F25885]">
+          <span className="text-sm font-medium">You gained</span>
+          <div className="flex italic text-4xl font-semibold gap-3 items-center">
+            +2 <span className="text-3xl -mx-1">🧠</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MovePanel = () => {
   const [status, setStatus] = useState<"idle" | "reveal" | "pending_action">(
     "idle"
   );
