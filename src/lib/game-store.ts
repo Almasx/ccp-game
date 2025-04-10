@@ -157,7 +157,13 @@ export const useGameStore = create<GameState>((set, get) => ({
       // Process the choice selection and get resulting effects
       const effects = processChoice(choiceEffect, choiceIndex);
       get().applyEffects(effects);
-      set({ panel: "effects" });
+
+      // Store the resolved effects on the card itself
+      set((state) => ({
+        currentCard: { ...state.currentCard!, finalOutcome: effects },
+        panel: "effects",
+      }));
+
       return effects;
     }
 

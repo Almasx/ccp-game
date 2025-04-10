@@ -14,6 +14,7 @@ export interface Card {
   description: string;
   neighborhood: Neighborhood;
   effects: CardEffect[];
+  finalOutcome?: BaseCardEffect[];
 }
 
 // Effect structure for gems and gpa

@@ -35,9 +35,11 @@ const ProbabilityPanel = () => {
   const handleRoll = useGameStore((state) => state.handleRoll);
 
   const roll = () => {
+    const randomNumber = Math.floor(Math.random() * 6) + 1;
+
     setStatus("reveal");
-    setNumber(Math.floor(Math.random() * 6) + 1);
-    setTimeout(() => handleRoll(number), 2000);
+    setNumber(randomNumber);
+    setTimeout(() => handleRoll(randomNumber), 2000);
   };
 
   return (
@@ -212,7 +214,10 @@ const EffectImage = ({ effect, size = "md" }: EffectImageProps) => {
 };
 
 const EffectsPanel = () => {
-  const effects = useGameStore((state) => state.currentCard?.effects);
+  const effects = useGameStore((state) => {
+    const card = state.currentCard;
+    return card?.finalOutcome || card?.effects;
+  });
 
   if (!effects || effects.length === 0) return null;
 
