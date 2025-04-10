@@ -3,7 +3,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useEventListener, useMount } from "~/hooks";
 import { EVENTS } from "~/lib/events";
-import { useGameStore } from "~/lib/game-store";
+import { PANEL_TRANSITION_DURATION, useGameStore } from "~/lib/game-store";
 
 export const CardReveal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ export const CardReveal = () => {
   useEventListener(EVENTS.DRAW_CARD, () => {
     setIsOpen(true);
 
-    setTimeout(() => setIsOpen(false), 3000);
+    setTimeout(() => setIsOpen(false), PANEL_TRANSITION_DURATION);
   });
 
   if (!isMounted) return null;
