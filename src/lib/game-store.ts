@@ -138,6 +138,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       const effects = processRoll(probEffect, roll);
       get().applyEffects(effects);
       set({ panel: "effects" });
+      setTimeout(() => set({ panel: "move" }), PANEL_TRANSITION_DURATION);
       return effects;
     }
 
