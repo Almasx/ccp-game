@@ -27,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({
           "active:shadow-[0px_1px_0px_0px_rgba(111,137,46,1),inset_0px_2.4px_4.8px_0px_rgba(255,255,255,0.25),inset_0px_-2.4px_4.8px_0px_rgba(111,137,46,1)]",
         variant === "secondary" && "bg-white text-neutral-800",
         variant === "secondary" &&
-          "shadow-[0px_4px_0px_0px_rgba(211,211,211,1),inset_0px_2.4px_4.8px_0px_rgba(255,255,255,0.25),inset_0px_-2.4px_4.8px_0px_rgba(111,137,46,1)]",
+          "shadow-[0px_4px_0px_0px_rgba(211,211,211,1),inset_0px_2.4px_4.8px_0px_rgba(0,0,0,0.05),inset_0px_-2.4px_4.8px_0px_rgba(211,211,211,1)]",
         variant === "secondary" &&
           "active:shadow-[0px_1px_0px_0px_rgba(211,211,211,1),inset_0px_2.4px_4.8px_0px_rgba(255,255,255,0.25),inset_0px_-2.4px_4.8px_0px_rgba(211,211,211,1)]",
 

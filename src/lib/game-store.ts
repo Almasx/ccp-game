@@ -40,8 +40,8 @@ interface GameState {
 }
 
 const initialState = {
-  gems: 50,
-  gpa: 4.0,
+  gems: 2,
+  gpa: 0.0,
   position: 0,
   deck: createDeck(),
   currentCard: null,

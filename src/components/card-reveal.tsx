@@ -47,10 +47,11 @@ export const CardReveal = () => {
             onClick={(e) => e.stopPropagation()}
             className="bg-white flex flex-col gap-y-4 rounded-2xl min-w-48 max-w-56 aspect-[4/5] border-4 border-yellow-300 ring-4 ring-white shadow-sm p-4 pt-6"
           >
-            <h1 className="text-2xl grow leading-none font-bold text-neutral-800">
+            <h1 className="text-2xl leading-none font-bold text-neutral-800">
               {currentCard?.title}
             </h1>
-            <p className="text-neutral-600 grow">{currentCard?.description}</p>
+            <p className="text-neutral-600">{currentCard?.description}</p>
+            <div className="grow" />
             <img
               src="/icons/q-mark.svg"
               alt="Question mark"

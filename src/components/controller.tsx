@@ -4,7 +4,7 @@ import { useGameStore } from "~/lib/game-store";
 
 import { AnimatePresence, motion } from "motion/react";
 import { EVENTS } from "~/lib/events";
-import { useEventListener } from "~/hooks";
+import { useEventListener, useMount } from "~/hooks";
 import { Panel } from "./panel";
 
 export const Controls = () => {
@@ -62,7 +62,7 @@ const GPA = () => {
   return (
     <div className="w-full group/gpa border-neutral-300 items-center flex flex-col overflow-hidden h-1/2">
       <span className="text-[#F25885] text-2xl font-semibold italic mt-1 group-hover/gpa:scale-90 transition-all duration-300 group-hover/gpa:opacity-50">
-        {gpa}
+        {gpa.toFixed(1)}
       </span>
       <div className="flex relative items-center -mt-1">
         <span className="text-2xl translate-x-2 rotate-6 transition-transform duration-300 transform-gpu group-hover/gpa:rotate-12 group-hover/gpa:-translate-y-1.5 group-hover/gpa:translate-x-1.5">
@@ -90,6 +90,10 @@ const Cards = () => {
     setDeck((d) => d.slice(0, -1));
     setTimeout(() => setDeck((d) => [generateId()].concat(d)), 1000);
   });
+
+  const mounted = useMount();
+
+  if (!mounted) return null;
 
   return (
     <div className="flex flex-col w-40 h-full border-l relative border-neutral-200 items-center justify-center rounded-r-2xl">

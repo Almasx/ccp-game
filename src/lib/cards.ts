@@ -210,18 +210,8 @@ export function createDeck(): Card[] {
           type: "choice",
           options: [
             {
-              label: "Accept job - Laundry",
-              effects: [
-                { type: "gems", magnitude: 2 },
-                { type: "gpa", magnitude: -2 },
-              ],
-            },
-            {
-              label: "Accept job - Bellhop",
-              effects: [
-                { type: "gems", magnitude: 2 },
-                { type: "gpa", magnitude: -2 },
-              ],
+              label: "Decline",
+              effects: [],
             },
             {
               label: "Accept job - Valet",
@@ -229,17 +219,6 @@ export function createDeck(): Card[] {
                 { type: "gems", magnitude: 2 },
                 { type: "gpa", magnitude: -2 },
               ],
-            },
-            {
-              label: "Accept job - Housekeeping",
-              effects: [
-                { type: "gems", magnitude: 2 },
-                { type: "gpa", magnitude: -2 },
-              ],
-            },
-            {
-              label: "Decline job offer",
-              effects: [],
             },
           ],
         },
@@ -255,15 +234,15 @@ export function createDeck(): Card[] {
           type: "choice",
           options: [
             {
-              label: "Accept job",
+              label: "Decline",
+              effects: [],
+            },
+            {
+              label: "Accept job - Cashier",
               effects: [
                 { type: "gems", magnitude: 1 },
                 { type: "gpa", magnitude: -1 },
               ],
-            },
-            {
-              label: "Decline job",
-              effects: [],
             },
           ],
         },
