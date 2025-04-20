@@ -19,11 +19,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased tracking-[-0.08em]`}>
-        <img
-          src="/images/background.png"
-          alt="background"
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full -z-10"
-        />
         {children}
       </body>
     </html>
