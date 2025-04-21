@@ -3,7 +3,7 @@ import Button from "./button";
 import { useMemo, useState } from "react";
 import { useGameStore } from "~/lib/game-store";
 import { BaseCardEffect } from "~/lib/cards";
-import { cn } from "~/utils";
+import { cn, TILE_POSITION } from "~/utils";
 
 export const Panel = () => {
   const panelType = useGameStore((state) => state.panel);
@@ -22,9 +22,12 @@ export const Panel = () => {
   }, [panelType]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full overflow-hidden border-l w-80 border-neutral-200">
-      {panel}
-    </div>
+    <>
+      <div className="relative z-20 flex flex-col items-center justify-center h-full overflow-hidden bg-white border-l w-80 border-neutral-200">
+        {panel}
+      </div>
+      <BusStopPanel />
+    </>
   );
 };
 
@@ -369,6 +372,36 @@ const MovePanel = () => {
         >
           <Button onClick={handleBack}>-{number} back</Button>
           <Button onClick={handleForward}>+{number} forward</Button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const BusStopPanel = () => {
+  const position = useGameStore((state) => state.position);
+
+  const hasBusStop = TILE_POSITION.BUS_STOP.includes(position);
+
+  return (
+    <AnimatePresence initial={false}>
+      {hasBusStop && (
+        <motion.div
+          className="absolute left-20 w-80 -top-0.5  flex items-center px-3 justify-between -translate-y-full bg-white/90 rounded-t-xl h-10 "
+          animate={{
+            y: 0,
+            transition: { delay: 1, duration: 0.4, type: "spring", bounce: 0 },
+          }}
+          initial={{ y: "105%" }}
+          exit={{ y: "105%" }}
+          transition={{ duration: 0.4, type: "spring", bounce: 0 }}
+        >
+          <span className="font-semibold leading-none text-neutral-500">
+            Ready to take final exam?
+          </span>
+          <Button className="scale-[0.6] py-1 -mx-6 -mt-0.5 text-xl ">
+            Take a bus
+          </Button>
         </motion.div>
       )}
     </AnimatePresence>
