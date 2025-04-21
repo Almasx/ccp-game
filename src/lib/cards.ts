@@ -388,7 +388,7 @@ export function createDeck(): Card[] {
       description:
         "The city introduces a rent control rollback. Your family's rent spikes.",
       location: "gentrified",
-      effects: [{ type: "gems", magnitude: -1 }],
+      effects: [{ type: "gems", magnitude: -10 }],
     },
     {
       id: "gen-n-3",
@@ -396,7 +396,23 @@ export function createDeck(): Card[] {
       description:
         "A new tech company moves in, driving up housing prices. Now, your family has to put off any plans to buy a house.",
       location: "gentrified",
+      effects: [{ type: "gems", magnitude: -10 }],
+    },
+    {
+      id: "gen-n-4",
+      title: "Grocery store price increased",
+      description:
+        "Your local grocery store carries healthy food now, but prices have increased. You have to budget carefully.",
+      location: "gentrified",
       effects: [{ type: "gems", magnitude: -1 }],
+    },
+    {
+      id: "gen-n-5",
+      title: "Parents stressed due to eviction",
+      description:
+        "Your parent lost a longtime neighbor to eviction. The stress affects their mood and availability.",
+      location: "gentrified",
+      effects: [{ type: "gpa", magnitude: -2 }],
     },
 
     // gentrified Positive Cards
@@ -422,7 +438,7 @@ export function createDeck(): Card[] {
       description:
         "You win a creative writing competition and get some prize gems.",
       location: "gentrified",
-      effects: [{ type: "gems", magnitude: 1 }],
+      effects: [{ type: "gems", magnitude: 5 }],
     },
     {
       id: "gen-p-4",
@@ -430,9 +446,65 @@ export function createDeck(): Card[] {
       description:
         "Your family secures one of the new rent-controlled apartments in the neighborhood.",
       location: "gentrified",
-      effects: [{ type: "gems", magnitude: 2 }],
+      effects: [{ type: "gems", magnitude: 10 }],
     },
-
+    {
+      id: "gen-p-4",
+      title: "Affordable Housing",
+      description:
+        "Your family secures one of the new rent-controlled apartments in the neighborhood.",
+      location: "gentrified",
+      effects: [{ type: "gems", magnitude: 10 }],
+    },
+    {
+  id: "gen-p-5",
+  title: "AP Class Enrollment",
+  description:
+    "Your public school receives a funding boost, but demand for advanced classes still outpaces supply. Competition is fierce.",
+  location: "greenlined",
+  effects: [
+    {
+      type: "probability",
+      description: "Roll a die. Roll a 4 or higher to enroll in the AP class.",
+      getOutcome: (roll) => {
+        // Roll 4 or higher for positive outcome
+        return roll >= 4
+          ? [
+              {
+                type: "grades",
+                magnitude: +2,
+                description:
+                  "You made it into the AP class! Your transcript stands out.",
+              },
+            ]
+          : [
+              {
+                type: "grades",
+                magnitude: -1,
+                description:
+                  "The class filled up before you could register. You miss out on college credit opportunities.",
+              },
+            ];
+      },
+    },
+  ],
+}
+{
+      id: "gen-p-6",
+      title: "Private Tutoring",
+      description:
+        "Your neighbor gets a private tutor and offers you one free tutoring session.",
+      location: "gentrified",
+      effects: [{ type: "gpa", magnitude: 1 }],
+    },
+{
+      id: "gen-p-7",
+      title: "New laptop",
+      description:
+        "Your school now partners with a tech company. You get a refurbished laptop. ",
+      location: "gentrified",
+      effects: [{ type: "gpa", magnitude: 1 }],
+    },
     // Middle Income Cards
     {
       id: "mid-n-1",
@@ -459,6 +531,7 @@ export function createDeck(): Card[] {
       location: "middle-income",
       effects: [{ type: "gems", magnitude: -2 }],
     },
+    
 
     // Middle Income Positive
     {
