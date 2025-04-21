@@ -100,14 +100,16 @@ export function getLocationFromPosition(position: number): Location {
       return "store";
     case position === TILE_POSITION.TUTOR:
       return "tutor";
-    case position >= 0 && position <= 6:
-      return "rich"; // Top side of board (positions 0-6)
-    case position >= 7 && position <= 11:
-      return "middle-income"; // Right side of board (positions 7-11)
-    case position >= 12 && position <= 18:
-      return "gentrified"; // Bottom side of board (positions 12-18)
+    case (position >= 21 && position <= 23) || (position >= 0 && position <= 2):
+      return "rich"; // Last 3 positions (21-23) and first 3 positions (0-2)
+    case position >= 3 && position <= 8:
+      return "gentrified"; // Positions 3-8
+    case position >= 9 && position <= 14:
+      return "redlined"; // Positions 9-14
+    case position >= 15 && position <= 20:
+      return "middle-income"; // Positions 15-20
     default:
-      return "redlined"; // Left side of board (positions 19-23)
+      return "redlined"; // Fallback
   }
 }
 

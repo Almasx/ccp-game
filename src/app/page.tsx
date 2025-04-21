@@ -7,7 +7,7 @@ import { StartGame } from "~/components/start-game";
 import { useGameStore } from "~/lib/game-store";
 import { useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
+import { Exam } from "~/components/exam";
 export default function Home() {
   const state = useGameStore((state) => state.state);
 
@@ -40,13 +40,14 @@ const Game = () => {
   return (
     <main className="flex flex-col items-center min-h-screen gap-8 pt-40 pb-10">
       <img
-        src="/images/background.png"
+        src="/images/bg.webp"
         alt="background"
         className="absolute inset-0 w-full h-full bg-center bg-no-repeat bg-cover -z-10"
       />
       <Board />
       <Controls />
       <CardReveal />
+      <Exam />
     </main>
   );
 };
