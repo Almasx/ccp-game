@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { Direction, getNextPosition } from "../utils";
+import {
+  Direction,
+  getNextPosition,
+  getPositionFromNeighborhood,
+  getNeighborhoodFromPosition,
+} from "~/utils/game";
 import {
   Card,
   BaseCardEffect,
@@ -11,6 +16,7 @@ import {
   processRoll,
   processChoice,
   Neighborhood,
+  spawn,
 } from "./cards";
 import { drawCardEvent } from "./events";
 
@@ -27,6 +33,7 @@ interface GameState {
   currentCard: Card | null;
   neighborhood: Neighborhood;
   panel: Panel;
+  state: "idle" | "playing" | "game-over";
   // Actions
   move: (spaces: number, direction: Direction) => void;
   updateGems: (amount: number) => void;
@@ -37,24 +44,30 @@ interface GameState {
   handleChoice: (choiceIndex: number) => BaseCardEffect[];
   processCard: () => void;
   resetGame: () => void;
+  changeState: (state: "idle" | "playing" | "game-over") => void;
 }
 
-const initialState = {
-  gems: 2,
-  gpa: 0.0,
-  position: 0,
-  deck: createDeck(),
-  currentCard: null,
-  neighborhood: "rich" as const,
-  panel: "move" as const,
-};
+function initGameState() {
+  const spawnConfig = spawn();
+
+  return {
+    state: "idle" as const,
+    gems: spawnConfig.initialGems,
+    gpa: 2,
+    position: getPositionFromNeighborhood(spawnConfig.neighborhood),
+    deck: createDeck(),
+    currentCard: null,
+    neighborhood: spawnConfig.neighborhood,
+    panel: "move" as const,
+  };
+}
 
 export const useGameStore = create<GameState>((set, get) => ({
-  ...initialState,
+  ...initGameState(),
+
   move: (spaces: number, direction: Direction) => {
     const position = getNextPosition(get().position, direction, spaces);
     const neighborhood = getNeighborhoodFromPosition(position);
-    // Update neighborhood based on position
 
     set({ position, neighborhood });
     get().drawCard();
@@ -171,18 +184,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     return [];
   },
 
-  resetGame: () => set({ ...initialState, deck: createDeck() }),
-}));
+  changeState: (state: "idle" | "playing" | "game-over") => set({ state }),
 
-// Helper function to determine neighborhood from board position
-function getNeighborhoodFromPosition(position: number): Neighborhood {
-  if (position >= 0 && position <= 6) {
-    return "rich"; // Top side of board (positions 0-6)
-  } else if (position >= 7 && position <= 11) {
-    return "middle-income"; // Right side of board (positions 7-11)
-  } else if (position >= 12 && position <= 18) {
-    return "gentrified"; // Bottom side of board (positions 12-18)
-  } else {
-    return "redlined"; // Left side of board (positions 19-23)
-  }
-}
+  resetGame: () => set(initGameState()),
+}));

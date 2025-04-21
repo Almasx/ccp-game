@@ -1,3 +1,5 @@
+import { NeighborhoodTile } from "~/utils";
+
 // Card neighborhood types
 export type Neighborhood = "redlined" | "gentrified" | "middle-income" | "rich";
 
@@ -45,6 +47,56 @@ export interface ChoiceEffect {
 
 // Union type for all card effects
 export type CardEffect = BaseCardEffect | ProbabilityEffect | ChoiceEffect;
+
+// New Type for Starting Profiles
+export interface SpawnConfig {
+  id: string; // e.g., 'smogshire', 'maplecrest'
+  name: string; // e.g., 'Smogshire Student'
+  neighborhood: Neighborhood;
+  building: NeighborhoodTile;
+  initialGems: number;
+  description: string; // Short description / backstory
+}
+
+// Define the four starting profiles
+export const spawnConfigs: SpawnConfig[] = [
+  {
+    id: "smogshire",
+    name: "Smogshire Student",
+    neighborhood: "redlined",
+    building: "cottage",
+    initialGems: 1,
+    description:
+      "Grew up facing systemic hurdles in an underfunded neighborhood. Helps care for younger siblings as single mother works two jobs. Motivated despite struggles.",
+  },
+  {
+    id: "maplecrest",
+    name: "Maplecrest Student",
+    neighborhood: "middle-income",
+    building: "house",
+    initialGems: 3,
+    description:
+      "Child of immigrant parents in a stable, working-class neighborhood. Family emphasizes education but lacks connections or funds for extras. Helps family navigate.",
+  },
+  {
+    id: "goldcrest",
+    name: "Goldcrest Student",
+    neighborhood: "rich",
+    building: "skyscraper",
+    initialGems: 5,
+    description:
+      "From an affluent family in a high-resource neighborhood. Attends top schools, has access to tutors, internships, and family connections. Unaware of systemic advantages.",
+  },
+  {
+    id: "oldbrick",
+    name: "Oldbrick Student",
+    neighborhood: "gentrified",
+    building: "mansion",
+    initialGems: 2,
+    description:
+      "Lives in a rapidly gentrifying neighborhood. Family struggles with rising rent in a shared apartment. Navigates cultural tensions and displacement.",
+  },
+];
 
 // Create a deck of cards
 export function createDeck(): Card[] {
@@ -489,4 +541,20 @@ export function drawCard(
   const remainingDeck = deck.filter((c) => c.id !== card.id);
 
   return { card, remainingDeck };
+}
+
+/**
+ * Selects a random starting profile.
+ * @returns A randomly chosen StartingProfile.
+ */
+export function spawn(): SpawnConfig {
+  // Simple vanilla JS random selection
+  const randomIndex = Math.floor(Math.random() * spawnConfigs.length);
+  return spawnConfigs[randomIndex];
+}
+
+export function getSpawnConfig(neighborhood: Neighborhood) {
+  return spawnConfigs.find(
+    (s) => s.neighborhood === neighborhood
+  ) as SpawnConfig;
 }

@@ -36,7 +36,7 @@ export const CardReveal = () => {
       {isOpen && (
         <motion.div
           key="card"
-          className="fixed top-0 z-20 flex items-center justify-center left-1/2 -translate-x-1/2 h-screen p-4"
+          className="fixed top-0 z-20 flex items-center justify-center h-screen p-4 -translate-x-1/2 left-1/2"
           initial={{ y: "-100%" }}
           animate={{ y: 0 }}
           exit={{ opacity: 0 }}
@@ -47,7 +47,7 @@ export const CardReveal = () => {
             onClick={(e) => e.stopPropagation()}
             className="bg-white flex flex-col gap-y-4 rounded-2xl min-w-48 max-w-56 aspect-[4/5] border-4 border-yellow-300 ring-4 ring-white shadow-sm p-4 pt-6"
           >
-            <h1 className="text-2xl leading-none font-bold text-neutral-800">
+            <h1 className="text-2xl font-bold leading-none text-neutral-800">
               {currentCard?.title}
             </h1>
             <p className="text-neutral-600">{currentCard?.description}</p>

@@ -1,12 +1,10 @@
-export type TileType =
-  | "mansion"
-  | "house"
-  | "store"
-  | "hotel"
-  | "cottage"
-  | "skyscraper"
-  | "tutor"
-  | "regular";
+import { Neighborhood } from "~/lib/cards";
+
+export type NeighborhoodTile = "mansion" | "house" | "cottage" | "skyscraper";
+export type ActionTile = "store" | "hotel" | "tutor";
+export type RegularTile = "regular";
+
+export type TileType = NeighborhoodTile | ActionTile | RegularTile;
 
 export type TileSize = "sm" | "lg";
 
@@ -80,4 +78,34 @@ export function getNextPosition(
   const nextPos =
     (currentPosition + direction * moveSize + boardSize) % boardSize;
   return nextPos >= 0 ? nextPos : boardSize + nextPos;
+}
+
+export function getNeighborhoodFromPosition(position: number): Neighborhood {
+  if (position >= 0 && position <= 6) {
+    return "rich"; // Top side of board (positions 0-6)
+  } else if (position >= 7 && position <= 11) {
+    return "middle-income"; // Right side of board (positions 7-11)
+  } else if (position >= 12 && position <= 18) {
+    return "gentrified"; // Bottom side of board (positions 12-18)
+  } else {
+    return "redlined"; // Left side of board (positions 19-23)
+  }
+}
+
+// Helper function to get a starting position based on neighborhood
+export function getPositionFromNeighborhood(
+  neighborhood: Neighborhood
+): number {
+  switch (neighborhood) {
+    case "rich":
+      return 0;
+    case "gentrified":
+      return 6;
+    case "redlined":
+      return 12;
+    case "middle-income":
+      return 18;
+    default:
+      return 0;
+  }
 }

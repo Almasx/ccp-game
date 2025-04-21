@@ -1,11 +1,9 @@
-import { cn, Board as BoardType, Tile as TileType } from "~/utils";
+import { cn, Tile as TileType, createBoard } from "~/utils";
 import { useGameStore } from "~/lib/game-store";
 
-interface BoardProps {
-  board: BoardType;
-}
+const board = createBoard();
 
-export function Board({ board }: BoardProps) {
+export function Board() {
   // Simple slicing into 4 sides
   const top = board.slice(0, 7);
   const right = board.slice(7, 12);

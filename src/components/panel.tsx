@@ -22,7 +22,7 @@ export const Panel = () => {
   }, [panelType]);
 
   return (
-    <div className="flex flex-col overflow-hidden w-80 h-full border-l border-neutral-200 items-center justify-center">
+    <div className="flex flex-col items-center justify-center h-full overflow-hidden border-l w-80 border-neutral-200">
       {panel}
     </div>
   );
@@ -116,17 +116,17 @@ const ChoicePanel = () => {
   if (!choice) return null;
 
   return (
-    <div className="flex justify-center items-center gap-6">
+    <div className="flex items-center justify-center gap-6">
       {choice.options.map((option, index) => {
         const isDecline = option.effects.length === 0;
 
         return (
           <div
-            className="relative flex flex-col -mt-2 items-center gap-0 h-full justify-end"
+            className="relative flex flex-col items-center justify-end h-full gap-0 -mt-2"
             key={option.label}
           >
             {!isDecline && (
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 {option.effects.map((effect, index) => {
                   effect = effect as BaseCardEffect;
                   const isLast = index === option.effects.length - 1;
@@ -136,19 +136,19 @@ const ChoicePanel = () => {
                       <div
                         className={cn(
                           "gap-0.5 flex flex-col items-center",
-                          getColor(effect)
+                          getEffectColor(effect.type)
                         )}
                         key={`${index}-effect`}
                       >
-                        <div className="flex italic text-xl font-semibold gap-2 items-center">
+                        <div className="flex items-center gap-2 text-xl italic font-semibold">
                           {effect.magnitude}
-                          {<EffectImage effect={effect} size="sm" />}
+                          {<EffectImage type={effect.type} size="sm" />}
                         </div>
                       </div>
 
                       {!isLast && (
                         <span
-                          className="text-xl italic text-neutral-400 font-semibold"
+                          className="text-xl italic font-semibold text-neutral-400"
                           key={`${index}-separator`}
                         >
                           &
@@ -177,17 +177,17 @@ const getTitle = (effect: BaseCardEffect) => {
   return isPositive ? "You gained" : "You lost";
 };
 
-const getColor = (effect: BaseCardEffect) => {
-  return effect.type === "gems" ? "text-[#3EBDFE]" : "text-[#F25885]";
+export const getEffectColor = (type: BaseCardEffect["type"]) => {
+  return type === "gems" ? "text-[#3EBDFE]" : "text-[#F25885]";
 };
 
 interface EffectImageProps {
-  effect: BaseCardEffect;
+  type: BaseCardEffect["type"];
   size?: "sm" | "md" | "lg";
 }
 
-const EffectImage = ({ effect, size = "md" }: EffectImageProps) => {
-  const isGems = effect.type === "gems";
+export const EffectImage = ({ type, size = "md" }: EffectImageProps) => {
+  const isGems = type === "gems";
   if (isGems)
     return (
       <img
@@ -226,18 +226,21 @@ const EffectsPanel = () => {
 
     return (
       <div
-        className={cn("gap-0.5 flex flex-col items-center", getColor(effect))}
+        className={cn(
+          "gap-0.5 flex flex-col items-center",
+          getEffectColor(effect.type)
+        )}
       >
         <span className="text-sm font-medium">{getTitle(effect)}</span>
-        <div className="flex italic text-5xl font-semibold gap-3 items-center">
-          {effect.magnitude} {<EffectImage effect={effect} size="lg" />}
+        <div className="flex items-center gap-3 text-5xl italic font-semibold">
+          {effect.magnitude} {<EffectImage type={effect.type} size="lg" />}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="gap-4 flex justify-center items-center">
+    <div className="flex items-center justify-center gap-4">
       {effects.map((effect, index) => {
         effect = effect as BaseCardEffect;
         const isLast = index === effects.length - 1;
@@ -246,19 +249,19 @@ const EffectsPanel = () => {
             <div
               className={cn(
                 "gap-0.5 flex flex-col items-center",
-                getColor(effect)
+                getEffectColor(effect.type)
               )}
               key={index}
             >
               <span className="text-sm font-medium">{getTitle(effect)}</span>
-              <div className="flex italic text-4xl font-semibold gap-3 items-center">
-                {effect.magnitude} {<EffectImage effect={effect} />}
+              <div className="flex items-center gap-3 text-4xl italic font-semibold">
+                {effect.magnitude} {<EffectImage type={effect.type} />}
               </div>
             </div>
 
             {!isLast && (
               <span
-                className="text-3xl italic text-neutral-400 font-semibold"
+                className="text-3xl italic font-semibold text-neutral-400"
                 key={`${index}-separator`}
               >
                 &
@@ -362,7 +365,7 @@ const MovePanel = () => {
           animate={{ opacity: 1, filter: "blur(0px)" }}
           exit={{ opacity: 0, filter: "blur(4px)" }}
           transition={{ duration: 0.3 }}
-          className="size-full flex justify-between items-center px-9 text-xl"
+          className="flex items-center justify-between text-xl size-full px-9"
         >
           <Button onClick={handleBack}>-{number} back</Button>
           <Button onClick={handleForward}>+{number} forward</Button>
