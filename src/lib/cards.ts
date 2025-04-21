@@ -67,7 +67,7 @@ export const spawnConfigs: SpawnConfig[] = [
     name: "Smogshire Student",
     neighborhood: "redlined",
     building: "cottage",
-    initialGems: 1,
+    initialGems: 80,
     description:
       "Grew up facing systemic hurdles in an underfunded neighborhood. Helps care for younger siblings as single mother works two jobs. Motivated despite struggles.",
   },
@@ -76,7 +76,7 @@ export const spawnConfigs: SpawnConfig[] = [
     name: "Maplecrest Student",
     neighborhood: "middle-income",
     building: "house",
-    initialGems: 3,
+    initialGems: 120,
     description:
       "Child of immigrant parents in a stable, working-class neighborhood. Family emphasizes education but lacks connections or funds for extras. Helps family navigate.",
   },
@@ -85,7 +85,7 @@ export const spawnConfigs: SpawnConfig[] = [
     name: "Goldcrest Student",
     neighborhood: "rich",
     building: "skyscraper",
-    initialGems: 5,
+    initialGems: 150,
     description:
       "From an affluent family in a high-resource neighborhood. Attends top schools, has access to tutors, internships, and family connections. Unaware of systemic advantages.",
   },
@@ -94,7 +94,7 @@ export const spawnConfigs: SpawnConfig[] = [
     name: "Oldbrick Student",
     neighborhood: "gentrified",
     building: "mansion",
-    initialGems: 2,
+    initialGems: 100,
     description:
       "Lives in a rapidly gentrifying neighborhood. Family struggles with rising rent in a shared apartment. Navigates cultural tensions and displacement.",
   },
