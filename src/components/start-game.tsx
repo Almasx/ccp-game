@@ -124,7 +124,7 @@ const Step2 = () => {
               getEffectColor("gpa")
             )}
           >
-            {gpa.toFixed(1)} {<EffectImage type="gpa" />}
+            {gpa} {<EffectImage type="gpa" />}
           </div>
         </div>
       </div>

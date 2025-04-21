@@ -482,7 +482,7 @@ export function applyBaseEffect(effect: BaseCardEffect): {
     case "gpa":
       // Convert magnitude to appropriate GPA scale change
       // Adjust the divisor as needed based on your game balancing
-      result.gpa = effect.magnitude * 0.1;
+      result.gpa = effect.magnitude;
       break;
   }
 
