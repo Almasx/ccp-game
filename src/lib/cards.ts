@@ -353,6 +353,30 @@ export function createDeck(): Card[] {
         },
       ],
     },
+    {
+      id: "loc-tutor-1",
+      title: "Tutor",
+      description: "Private tutor offers you one tutoring session.",
+      location: "tutor",
+      effects: [
+        {
+          type: "choice",
+          options: [
+            {
+              label: "Decline",
+              effects: [],
+            },
+            {
+              label: "Accept tutoring",
+              effects: [
+                { type: "gems", magnitude: -10 },
+                { type: "gpa", magnitude: 1 },
+              ],
+            },
+          ],
+        },
+      ],
+    },
 
     // gentrified Neighborhood Cards
     {
@@ -411,8 +435,10 @@ export function createDeck(): Card[] {
       description:
         "Your affluent neighbor's parent pulls strings to get you a summer internship. But you have to pay for it",
       location: "gentrified",
-      effects: [{ type: "gpa", magnitude: 1 }
-               { type: "gems", magnitude: -5 }],
+      effects: [
+        { type: "gpa", magnitude: 1 },
+        { type: "gems", magnitude: -5 },
+      ],
     },
     {
       id: "gen-p-3",
@@ -459,7 +485,7 @@ export function createDeck(): Card[] {
                 type: "gpa",
                 magnitude: -1,
                 description:
-                  "You made it into the AP class! Your transcript stands out.",
+                  "You didn't make it into the AP class. You can try again next year.",
               },
             ];
           },
@@ -468,14 +494,6 @@ export function createDeck(): Card[] {
     },
     {
       id: "gen-p-6",
-      title: "Private Tutoring",
-      description:
-        "Your neighbor gets a private tutor and offers you one free tutoring session.",
-      location: "gentrified",
-      effects: [{ type: "gpa", magnitude: 1 }],
-    },
-    {
-      id: "gen-p-7",
       title: "New laptop",
       description:
         "Your school now partners with a tech company. You get a refurbished laptop. ",
@@ -520,7 +538,7 @@ export function createDeck(): Card[] {
     },
     {
       id: "mid-p-2",
-      title: "Public Park Upgpa",
+      title: "Public Park Upgrade",
       description:
         "There are lots of city investments into public park upgrades, you have lots of free recreation options to keep you healthy and happy. This allows you to perform better in school",
       location: "middle-income",
@@ -546,30 +564,29 @@ export function createDeck(): Card[] {
       id: "mid-n-3",
       title: "Internet maintenance",
       description:
-        "You lose internet for a day due to service maintenance. Your assignment is submitted late and you occur a penalty",
+        "You lose internet for a day due to service maintenance. Your assignment is submitted late and you incur a penalty",
       location: "middle-income",
       effects: [{ type: "gpa", magnitude: -0.25 }],
     },
     {
       id: "mid-n-4",
-      title: "Your younger sibling's birthday is coming up! You pitch in to get him an action figure he's wanted for a long time.",
+      title: "Birthday",
       description:
-        "input",
+        "Your younger sibling's birthday is coming up! You pitch in to get him an action figure he's wanted for a long time.",
       location: "middle-income",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
       id: "mid-n-5",
-      title: "Your school is organising a foreign exchange program for one week. You earn credit but it is expensive!",
+      title: "Foreign Exchange Program",
       description:
-        "input",
+        "Your school is organising a foreign exchange program for one week. You earn credit but it is expensive!",
       location: "middle-income",
-      effects: [{ type: "gpa", magnitude: 1}
-               { type: "gems", magnitude: -10}],
+      effects: [
+        { type: "gpa", magnitude: 1 },
+        { type: "gems", magnitude: -10 },
+      ],
     },
-
-
-  
 
     // rich Neighborhood Cards
     {
@@ -590,7 +607,8 @@ export function createDeck(): Card[] {
     {
       id: "rich-p-3",
       title: "Alumni Connections",
-      description: "Your parent is an alumnus of a prestigious university. They write you a college recommendation letter.",
+      description:
+        "Your parent is an alumnus of a prestigious university. They write you a college recommendation letter.",
       location: "rich",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
@@ -602,14 +620,16 @@ export function createDeck(): Card[] {
       location: "rich",
       effects: [{ type: "gpa", magnitude: 0.5 }],
     },
-     {
+    {
       id: "rich-p-5",
       title: "Private School",
       description:
         "You attend a private or well-funded public school with good support services. Your teachers have PhDs and can give you individual attention",
       location: "rich",
-      effects: [{ type: "gems", magnitude: -20 },
-                { type: "gpa", magnitude: -3 },]
+      effects: [
+        { type: "gems", magnitude: -20 },
+        { type: "gpa", magnitude: 3 },
+      ],
     },
     {
       id: "rich-p-6",
@@ -625,9 +645,10 @@ export function createDeck(): Card[] {
       description:
         "Your family has high-speed internet and bought you your own laptop, which allows you to easily study",
       location: "rich",
-      effects: [{ type: "gems", magnitude: -10 }, 
-               { type: "gpa", magnitude: 0.5 }
-               ],
+      effects: [
+        { type: "gems", magnitude: -10 },
+        { type: "gpa", magnitude: 0.5 },
+      ],
     },
     {
       id: "rich-p-8",
@@ -637,11 +658,11 @@ export function createDeck(): Card[] {
       location: "rich",
       effects: [{ type: "gpa", magnitude: 0.5 }],
     },
-     {
+    {
       id: "rich-n-1",
       title: "Sick",
       description:
-        "You fall sick before a major exam, ",
+        "You fall sick before a major exam, and have to take a day off to recover.",
       location: "rich",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
@@ -724,16 +745,10 @@ export function drawCard(
   // Filter cards by neighborhood neighborhood
   const locationCards = getCardsByLocation(deck, location);
 
-  if (locationCards.length === 0) {
-    // If no cards for this neighborhood, draw any random card
-    const randomIndex = Math.floor(Math.random() * deck.length);
-    const card = deck[randomIndex];
-    const remainingDeck = [
-      ...deck.slice(0, randomIndex),
-      ...deck.slice(randomIndex + 1),
-    ];
-    return { card, remainingDeck };
-  }
+  // If no cards for this neighborhood, reset the deck
+  deck = !locationCards.length
+    ? deck.concat(getCardsByLocation(createDeck(), location))
+    : deck;
 
   // Draw a random card from the neighborhood-specific cards
   const randomIndex = Math.floor(Math.random() * locationCards.length);
@@ -742,7 +757,10 @@ export function drawCard(
   // Remove the selected card from the deck
   const remainingDeck = deck.filter((c) => c.id !== card.id);
 
-  return { card, remainingDeck };
+  return {
+    card,
+    remainingDeck: isCommercial(card.location) ? deck : remainingDeck,
+  };
 }
 
 /**
@@ -759,4 +777,8 @@ export function getSpawnConfig(neighborhood: Neighborhood) {
   return spawnConfigs.find(
     (s) => s.neighborhood === neighborhood
   ) as SpawnConfig;
+}
+
+export function isCommercial(location: Location): boolean {
+  return location === "store" || location === "hotel" || location === "tutor";
 }
