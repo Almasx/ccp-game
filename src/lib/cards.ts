@@ -154,7 +154,7 @@ export function createDeck(): Card[] {
       description:
         "Your neighborhood's public transit is unreliable. You're late to school.",
       location: "redlined",
-      effects: [{ type: "gpa", magnitude: -1 }],
+      effects: [{ type: "gpa", magnitude: -0.25 }],
     },
     {
       id: "red-n-6",
@@ -170,7 +170,7 @@ export function createDeck(): Card[] {
       description:
         "Your younger sibling got sick, and your parents can't take time off work. You must stay home to take care of them.",
       location: "redlined",
-      effects: [{ type: "gpa", magnitude: -1 }],
+      effects: [{ type: "gpa", magnitude: -0.5 }],
     },
     {
       id: "red-n-8",
@@ -178,7 +178,7 @@ export function createDeck(): Card[] {
       description:
         "Your family can't afford the rising utility bills, and your electricity is cut off. Lose 1 Study Session.",
       location: "redlined",
-      effects: [{ type: "gpa", magnitude: -1 }],
+      effects: [{ type: "gpa", magnitude: -0.5 }],
     },
     {
       id: "red-n-9",
@@ -197,7 +197,7 @@ export function createDeck(): Card[] {
               : [
                   {
                     type: "gems",
-                    magnitude: -2,
+                    magnitude: -10,
                     description:
                       "Your grandmother got detained by ICE. Pay for an immigration lawyer.",
                   },
@@ -213,7 +213,46 @@ export function createDeck(): Card[] {
         "Your uninsured family member needs urgent medical care, and you have to help.",
       location: "redlined",
       effects: [
-        { type: "gems", magnitude: -3 },
+        { type: "gems", magnitude: -20 },
+      ],
+    },
+    {
+      id: "red-n-11",
+      title: "Household Responsibilities.",
+      description:
+        "Your parent picks up extra shifts, leaving you to manage household responsibilities.",
+      location: "redlined",
+      effects: [
+        { type: "gpa", magnitude: -1 },
+      ],
+    },
+    {
+      id: "red-n-12",
+      title: "Sibling Suspension",
+      description:
+        "Your sibling gets suspended from school, and your parents expect you to help them keep up.",
+      location: "redlined",
+      effects: [
+        { type: "gpa", magnitude: -0.5 },
+      ],
+    },
+    {
+      id: "red-n-13",
+      title: "Move in with Relatives",
+      description:
+        "Your family can’t afford rent anymore, so you move into a relative’s small apartment.",
+      location: "redlined",
+      effects: [
+        { type: "gpa", magnitude: -0.5 },
+      ],
+    },
+    {
+      id: "red-n-14",
+      title: "Expensive Internet",
+      description:
+        "Your family can’t afford the internet, making homework difficult.",
+      location: "redlined",
+      effects: [
         { type: "gpa", magnitude: -1 },
       ],
     },
@@ -224,7 +263,7 @@ export function createDeck(): Card[] {
       title: "Massive Scholarship",
       description: "You just received a massive scholarship!",
       location: "redlined",
-      effects: [{ type: "gems", magnitude: 2 }],
+      effects: [{ type: "gems", magnitude: 20 }],
     },
     {
       id: "red-p-2",
@@ -250,6 +289,36 @@ export function createDeck(): Card[] {
       effects: [
         { type: "gems", magnitude: 1 },
         { type: "gpa", magnitude: 1 },
+      ],
+    },
+    {
+      id: "red-p-5",
+      title: "Small Scholarship",
+      description:
+        "You received a small scholarship!",
+      location: "redlined",
+      effects: [
+        { type: "gems", magnitude: 8 },
+      ],
+    },
+    {
+      id: "red-p-6",
+      title: "Study Group",
+      description:
+        "You and your friends start a study group that meets weekly at the library.",
+      location: "redlined",
+      effects: [
+        { type: "gpa", magnitude: 0.5 },
+      ],
+    },
+    {
+      id: "red-p-7",
+      title: "STEM Camp",
+      description:
+        "You’re selected for a free STEM camp hosted by a nearby university.",
+      location: "redlined",
+      effects: [
+        { type: "gpa", magnitude: 0.5 },
       ],
     },
 
