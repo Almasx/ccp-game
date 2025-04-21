@@ -10,11 +10,22 @@ export const CardReveal = () => {
   const { currentCard } = useGameStore();
   const isMounted = useMount();
 
+  const closeCard = useGameStore((state) => state.closeCard);
+
   useEventListener(EVENTS.DRAW_CARD, () => {
     setIsOpen(true);
 
     setTimeout(() => setIsOpen(false), PANEL_TRANSITION_DURATION);
   });
+
+  useEventListener(EVENTS.CLOSE_CARD, () => {
+    setIsOpen(false);
+  });
+
+  const handleClose = () => {
+    setIsOpen(false);
+    closeCard();
+  };
 
   if (!isMounted) return null;
 
@@ -28,7 +39,7 @@ export const CardReveal = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-20 flex items-center justify-center backdrop-blur-sm bg-white/20"
-          onClick={() => setIsOpen(false)}
+          onClick={handleClose}
         />
       )}
 
@@ -40,7 +51,7 @@ export const CardReveal = () => {
           initial={{ y: "-100%" }}
           animate={{ y: 0 }}
           exit={{ opacity: 0 }}
-          onClick={() => setIsOpen(false)}
+          onClick={handleClose}
           transition={{ duration: 1, type: "spring", bounce: 0 }}
         >
           <div

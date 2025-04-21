@@ -18,7 +18,7 @@ import {
   Location,
   spawn,
 } from "./cards";
-import { drawCardEvent } from "./events";
+import { closeCardEvent, drawCardEvent } from "./events";
 
 export const PANEL_TRANSITION_DURATION = 3000;
 
@@ -45,6 +45,7 @@ interface GameState {
   processCard: () => void;
   resetGame: () => void;
   changeState: (state: "idle" | "playing" | "game-over") => void;
+  closeCard: () => void;
 }
 
 function initGameState() {
@@ -181,6 +182,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     return [];
+  },
+
+  closeCard: () => {
+    set({ panel: "move" });
+    closeCardEvent();
   },
 
   changeState: (state: "idle" | "playing" | "game-over") => set({ state }),
