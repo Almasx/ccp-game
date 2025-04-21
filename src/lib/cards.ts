@@ -118,7 +118,7 @@ export function createDeck(): Card[] {
       description:
         "The nearest library branch in your neighborhood has limited hours due to budget cuts. You can't always study there anymore.",
       location: "redlined",
-      effects: [{ type: "gpa", magnitude: -1 }],
+      effects: [{ type: "gpa", magnitude: -0.5 }],
     },
     {
       id: "red-n-3",
@@ -126,7 +126,7 @@ export function createDeck(): Card[] {
       description:
         "Your parent works two jobs, leaving little time to help with school.",
       location: "redlined",
-      effects: [{ type: "gpa", magnitude: -1 }],
+      effects: [{ type: "gpa", magnitude: -0.5 }],
     },
     {
       id: "red-n-4",
@@ -142,8 +142,8 @@ export function createDeck(): Card[] {
           getOutcome: (roll) => {
             // Roll 4 or higher for better outcome
             return roll >= 4
-              ? [{ type: "gems", magnitude: -1 }]
-              : [{ type: "gems", magnitude: -2 }];
+              ? [{ type: "gems", magnitude: -10 }]
+              : [{ type: "gems", magnitude: -20 }];
           },
         },
       ],
@@ -154,7 +154,7 @@ export function createDeck(): Card[] {
       description:
         "Your neighborhood's public transit is unreliable. You're late to school.",
       location: "redlined",
-      effects: [{ type: "gpa", magnitude: -0.25 }],
+      effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
       id: "red-n-6",
@@ -170,7 +170,7 @@ export function createDeck(): Card[] {
       description:
         "Your younger sibling got sick, and your parents can't take time off work. You must stay home to take care of them.",
       location: "redlined",
-      effects: [{ type: "gpa", magnitude: -0.5 }],
+      effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
       id: "red-n-8",
@@ -178,7 +178,7 @@ export function createDeck(): Card[] {
       description:
         "Your family can't afford the rising utility bills, and your electricity is cut off. Lose 1 Study Session.",
       location: "redlined",
-      effects: [{ type: "gpa", magnitude: -0.5 }],
+      effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
       id: "red-n-9",
@@ -197,7 +197,7 @@ export function createDeck(): Card[] {
               : [
                   {
                     type: "gems",
-                    magnitude: -10,
+                    magnitude: -2,
                     description:
                       "Your grandmother got detained by ICE. Pay for an immigration lawyer.",
                   },
@@ -213,46 +213,7 @@ export function createDeck(): Card[] {
         "Your uninsured family member needs urgent medical care, and you have to help.",
       location: "redlined",
       effects: [
-        { type: "gems", magnitude: -20 },
-      ],
-    },
-    {
-      id: "red-n-11",
-      title: "Household Responsibilities.",
-      description:
-        "Your parent picks up extra shifts, leaving you to manage household responsibilities.",
-      location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: -1 },
-      ],
-    },
-    {
-      id: "red-n-12",
-      title: "Sibling Suspension",
-      description:
-        "Your sibling gets suspended from school, and your parents expect you to help them keep up.",
-      location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: -0.5 },
-      ],
-    },
-    {
-      id: "red-n-13",
-      title: "Move in with Relatives",
-      description:
-        "Your family can’t afford rent anymore, so you move into a relative’s small apartment.",
-      location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: -0.5 },
-      ],
-    },
-    {
-      id: "red-n-14",
-      title: "Expensive Internet",
-      description:
-        "Your family can’t afford the internet, making homework difficult.",
-      location: "redlined",
-      effects: [
+        { type: "gems", magnitude: -3 },
         { type: "gpa", magnitude: -1 },
       ],
     },
@@ -263,7 +224,7 @@ export function createDeck(): Card[] {
       title: "Massive Scholarship",
       description: "You just received a massive scholarship!",
       location: "redlined",
-      effects: [{ type: "gems", magnitude: 20 }],
+      effects: [{ type: "gems", magnitude: 2 }],
     },
     {
       id: "red-p-2",
@@ -291,36 +252,6 @@ export function createDeck(): Card[] {
         { type: "gpa", magnitude: 1 },
       ],
     },
-    {
-      id: "red-p-5",
-      title: "Small Scholarship",
-      description:
-        "You received a small scholarship!",
-      location: "redlined",
-      effects: [
-        { type: "gems", magnitude: 8 },
-      ],
-    },
-    {
-      id: "red-p-6",
-      title: "Study Group",
-      description:
-        "You and your friends start a study group that meets weekly at the library.",
-      location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: 0.5 },
-      ],
-    },
-    {
-      id: "red-p-7",
-      title: "STEM Camp",
-      description:
-        "You’re selected for a free STEM camp hosted by a nearby university.",
-      location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: 0.5 },
-      ],
-    },
 
     // Special Location Cards - Hotel and Cornershop
     {
@@ -340,7 +271,7 @@ export function createDeck(): Card[] {
             {
               label: "Accept job - Valet",
               effects: [
-                { type: "gems", magnitude: 2 },
+                { type: "gems", magnitude: 20 },
                 { type: "gpa", magnitude: -2 },
               ],
             },
@@ -364,7 +295,7 @@ export function createDeck(): Card[] {
             {
               label: "Accept job - Cashier",
               effects: [
-                { type: "gems", magnitude: 1 },
+                { type: "gems", magnitude: 10 },
                 { type: "gpa", magnitude: -1 },
               ],
             },
@@ -412,9 +343,10 @@ export function createDeck(): Card[] {
       id: "gen-p-2",
       title: "Summer Internship",
       description:
-        "Your affluent neighbor's parent pulls strings to get you a summer internship.",
+        "Your affluent neighbor's parent pulls strings to get you a summer internship. But you have to pay for it",
       location: "gentrified",
-      effects: [{ type: "gpa", magnitude: 1 }],
+      effects: [{ type: "gpa", magnitude: 1 }
+               { type: "gems", magnitude: -5 }],
     },
     {
       id: "gen-p-3",
@@ -446,7 +378,7 @@ export function createDeck(): Card[] {
           description: "Roll a die to see if you qualify.",
           getOutcome: (roll) => {
             // Roll 4 or higher to get scholarship
-            return roll >= 4 ? [{ type: "gems", magnitude: 2 }] : [];
+            return roll >= 4 ? [{ type: "gems", magnitude: 10 }] : [];
           },
         },
       ],
@@ -457,7 +389,7 @@ export function createDeck(): Card[] {
       description:
         "One of your parents gets laid off due to an AI boom. The tech company is doing mass layoffs.",
       location: "middle-income",
-      effects: [{ type: "gems", magnitude: -2 }],
+      effects: [{ type: "gems", magnitude: -20 }],
     },
 
     // Middle Income Positive
@@ -473,10 +405,54 @@ export function createDeck(): Card[] {
       id: "mid-p-2",
       title: "Public Park Upgpa",
       description:
-        "There are lots of city investments into public park upgpa, you have lots of free recreation options to keep you healthy and happy.",
+        "There are lots of city investments into public park upgrades, you have lots of free recreation options to keep you healthy and happy. This allows you to perform better in school",
+      location: "middle-income",
+      effects: [{ type: "gpa", magnitude: 0.25 }],
+    },
+    {
+      id: "mid-p-3",
+      title: "Stay at home parent",
+      description:
+        "You have a stay-at-home parent who is able to help you with homework and school activities. ",
       location: "middle-income",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
+    {
+      id: "mid-p-4",
+      title: "SAT Prep course middle",
+      description:
+        "Your school offers SAT prep courses after school. You attend regularly.",
+      location: "middle-income",
+      effects: [{ type: "gpa", magnitude: 1 }],
+    },
+    {
+      id: "mid-n-3",
+      title: "Internet maintenance",
+      description:
+        "You lose internet for a day due to service maintenance. Your assignment is submitted late and you occur a penalty",
+      location: "middle-income",
+      effects: [{ type: "gpa", magnitude: -0.25 }],
+    },
+    {
+      id: "mid-n-4",
+      title: "Your younger sibling's birthday is coming up! You pitch in to get him an action figure he's wanted for a long time.",
+      description:
+        "input",
+      location: "middle-income",
+      effects: [{ type: "gpa", magnitude: -1 }],
+    },
+    {
+      id: "mid-n-5",
+      title: "Your school is organising a foreign exchange program for one week. You earn credit but it is expensive!",
+      description:
+        "input",
+      location: "middle-income",
+      effects: [{ type: "gpa", magnitude: 1}
+               { type: "gems", magnitude: -10}],
+    },
+
+
+  
 
     // rich Neighborhood Cards
     {
@@ -489,41 +465,84 @@ export function createDeck(): Card[] {
     },
     {
       id: "rich-p-2",
-      title: "Private Tutoring",
-      description:
-        "Your parents can afford a private tutor to help you with difficult subjects.",
-      location: "rich",
-      effects: [{ type: "gpa", magnitude: 1 }],
-    },
-    {
-      id: "rich-p-3",
       title: "SAT Prep Course",
       description: "Your family enrolls you in an expensive SAT prep course.",
       location: "rich",
       effects: [{ type: "gpa", magnitude: 2 }],
     },
     {
-      id: "rich-p-4",
+      id: "rich-p-3",
       title: "Alumni Connections",
-      description: "Your parent is an alumnus of a prestigious university.",
+      description: "Your parent is an alumnus of a prestigious university. They write you a college recommendation letter.",
       location: "rich",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
-      id: "rich-p-5",
-      title: "Family Connections",
-      description:
-        "Your parents' connections help you land a prestigious internship.",
-      location: "rich",
-      effects: [{ type: "gpa", magnitude: 2 }],
-    },
-    {
-      id: "rich-p-6",
+      id: "rich-p-4",
       title: "Focus on School",
       description:
         "Your parents handle all chores, so you can focus entirely on school.",
       location: "rich",
-      effects: [{ type: "gpa", magnitude: 1 }],
+      effects: [{ type: "gpa", magnitude: 0.5 }],
+    },
+     {
+      id: "rich-p-5",
+      title: "Private School",
+      description:
+        "You attend a private or well-funded public school with good support services. Your teachers have PhDs and can give you individual attention",
+      location: "rich",
+      effects: [{ type: "gems", magnitude: -20 },
+                { type: "gpa", magnitude: -3 },]
+    },
+    {
+      id: "rich-p-6",
+      title: "Trust Fund",
+      description:
+        "You inherit a trust fund milestone payout when you turn 18.",
+      location: "rich",
+      effects: [{ type: "gems", magnitude: 20 }],
+    },
+    {
+      id: "rich-p-7",
+      title: "Internet",
+      description:
+        "Your family has high-speed internet and bought you your own laptop, which allows you to easily study",
+      location: "rich",
+      effects: [{ type: "gems", magnitude: -10 }, 
+               { type: "gpa", magnitude: 0.5 }
+               ],
+    },
+    {
+      id: "rich-p-8",
+      title: "Study Room",
+      description:
+        "Your house has a study room specifically designed for you. This allows you a quiet space to lock in and concentrate.",
+      location: "rich",
+      effects: [{ type: "gpa", magnitude: 0.5 }],
+    },
+     {
+      id: "rich-n-1",
+      title: "Sick",
+      description:
+        "You fall sick before a major exam, ",
+      location: "rich",
+      effects: [{ type: "gpa", magnitude: -1 }],
+    },
+    {
+      id: "rich-n-2",
+      title: "Parent Pressure",
+      description:
+        "Your parents have extremely high expectations for you. This leads to high academic stress and you have a panic attack before an important test.",
+      location: "rich",
+      effects: [{ type: "gpa", magnitude: -1 }],
+    },
+    {
+      id: "rich-n-3",
+      title: "Stock market crashes",
+      description:
+        "The stock market crashed and your parents lost a lot of money in investments.",
+      location: "rich",
+      effects: [{ type: "gems", magnitude: -40 }],
     },
   ];
 }
