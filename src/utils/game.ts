@@ -23,6 +23,7 @@ export const TILE_POSITION = {
   COTTAGE: 12, // Bottom-right corner
   TUTOR: 15, // Left side
   SKYSCRAPER: 18, // Bottom-left corner
+  BUS_STOP: [2, 16, 21],
 };
 
 // Represents a tile on the board
