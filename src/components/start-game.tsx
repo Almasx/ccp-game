@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { getSpawnConfig } from "~/lib/cards";
+import { getSpawnConfig, Neighborhood } from "~/lib/cards";
 import { useGameStore } from "~/lib/game-store";
 import { cn } from "~/utils";
 import Button from "./button";
@@ -59,7 +59,7 @@ const Step1 = ({ onNextStep }: { onNextStep: () => void }) => {
 
 const Step2 = () => {
   const changeState = useGameStore((state) => state.changeState);
-  const neighborhood = useGameStore((state) => state.neighborhood);
+  const neighborhood = useGameStore((state) => state.location as Neighborhood);
   const gems = useGameStore((state) => state.gems);
   const gpa = useGameStore((state) => state.gpa);
 

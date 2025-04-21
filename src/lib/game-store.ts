@@ -3,7 +3,7 @@ import {
   Direction,
   getNextPosition,
   getPositionFromNeighborhood,
-  getNeighborhoodFromPosition,
+  getLocationFromPosition,
 } from "~/utils/game";
 import {
   Card,
@@ -15,7 +15,7 @@ import {
   applyBaseEffect,
   processRoll,
   processChoice,
-  Neighborhood,
+  Location,
   spawn,
 } from "./cards";
 import { drawCardEvent } from "./events";
@@ -31,7 +31,7 @@ interface GameState {
   position: number;
   deck: Card[];
   currentCard: Card | null;
-  neighborhood: Neighborhood;
+  location: Location;
   panel: Panel;
   state: "idle" | "playing" | "game-over";
   // Actions
@@ -57,7 +57,7 @@ function initGameState() {
     position: getPositionFromNeighborhood(spawnConfig.neighborhood),
     deck: createDeck(),
     currentCard: null,
-    neighborhood: spawnConfig.neighborhood,
+    location: spawnConfig.neighborhood,
     panel: "move" as const,
   };
 }
@@ -67,9 +67,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   move: (spaces: number, direction: Direction) => {
     const position = getNextPosition(get().position, direction, spaces);
-    const neighborhood = getNeighborhoodFromPosition(position);
+    const location = getLocationFromPosition(position);
 
-    set({ position, neighborhood });
+    set({ position, location });
     get().drawCard();
     get().processCard();
   },
@@ -84,8 +84,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   drawCard: () => {
     set((state) => {
-      console.log(state.neighborhood);
-      const { card, remainingDeck } = drawCard(state.deck, state.neighborhood);
+      const { card, remainingDeck } = drawCard(state.deck, state.location);
       drawCardEvent();
 
       return {

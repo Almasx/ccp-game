@@ -2,7 +2,9 @@ import { NeighborhoodTile } from "~/utils";
 
 // Card neighborhood types
 export type Neighborhood = "redlined" | "gentrified" | "middle-income" | "rich";
+export type CommercialArea = "store" | "hotel" | "tutor";
 
+export type Location = Neighborhood | CommercialArea;
 // Card effect types
 export type EffectType = "gems" | "gpa" | "choice" | "probability";
 
@@ -14,7 +16,7 @@ export interface Card {
   id: string;
   title: string;
   description: string;
-  neighborhood: Neighborhood;
+  location: Location;
   effects: CardEffect[];
   finalOutcome?: BaseCardEffect[];
 }
@@ -107,7 +109,7 @@ export function createDeck(): Card[] {
       title: "Food Desert",
       description:
         "Your neighborhood is classified as a food desert. You spend extra time and gems traveling for groceries.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gems", magnitude: -1 }],
     },
     {
@@ -115,7 +117,7 @@ export function createDeck(): Card[] {
       title: "Limited Library Hours",
       description:
         "The nearest library branch in your neighborhood has limited hours due to budget cuts. You can't always study there anymore.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
@@ -123,7 +125,7 @@ export function createDeck(): Card[] {
       title: "Parent Works Two Jobs",
       description:
         "Your parent works two jobs, leaving little time to help with school.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
@@ -131,7 +133,7 @@ export function createDeck(): Card[] {
       title: "Wildfire Health Impact",
       description:
         "A wildfire in California leads to poor air quality, hitting low-income neighborhoods hardest. You have to pay for healthcare.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [
         {
           type: "probability",
@@ -151,7 +153,7 @@ export function createDeck(): Card[] {
       title: "Unreliable Public Transit",
       description:
         "Your neighborhood's public transit is unreliable. You're late to school.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
@@ -159,7 +161,7 @@ export function createDeck(): Card[] {
       title: "Limited School Resources",
       description:
         "Your school lacks advanced courses. You struggle with preparing for the SAT.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
@@ -167,7 +169,7 @@ export function createDeck(): Card[] {
       title: "Family Healthcare Crisis",
       description:
         "Your younger sibling got sick, and your parents can't take time off work. You must stay home to take care of them.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
@@ -175,7 +177,7 @@ export function createDeck(): Card[] {
       title: "Utility Bills Crisis",
       description:
         "Your family can't afford the rising utility bills, and your electricity is cut off. Lose 1 Study Session.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
@@ -183,7 +185,7 @@ export function createDeck(): Card[] {
       title: "ICE Raids",
       description:
         "ICE raids in your community have caused panic. Your family avoids legal trouble but lives in fear.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [
         {
           type: "probability",
@@ -209,7 +211,7 @@ export function createDeck(): Card[] {
       title: "Medical Emergency",
       description:
         "Your uninsured family member needs urgent medical care, and you have to help.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [
         { type: "gems", magnitude: -3 },
         { type: "gpa", magnitude: -1 },
@@ -221,14 +223,14 @@ export function createDeck(): Card[] {
       id: "red-p-1",
       title: "Massive Scholarship",
       description: "You just received a massive scholarship!",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gems", magnitude: 2 }],
     },
     {
       id: "red-p-2",
       title: "Sibling Support",
       description: "Your older sibling helps you study for a test.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
@@ -236,7 +238,7 @@ export function createDeck(): Card[] {
       title: "Library Grant",
       description:
         "Your underfunded library finally gets a grant for STEM workshops, and you learn coding for free.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
@@ -244,7 +246,7 @@ export function createDeck(): Card[] {
       title: "Urban Farm Project",
       description:
         "A new urban farm project in your area gives families access to free, healthy produce. You eat better and feel more energized.",
-      neighborhood: "redlined",
+      location: "redlined",
       effects: [
         { type: "gems", magnitude: 1 },
         { type: "gpa", magnitude: 1 },
@@ -257,7 +259,7 @@ export function createDeck(): Card[] {
       title: "Part-time Job Opportunity",
       description:
         "Your family is struggling financially, so you consider taking on a part-time job at the hotel.",
-      neighborhood: "redlined",
+      location: "hotel",
       effects: [
         {
           type: "choice",
@@ -281,7 +283,7 @@ export function createDeck(): Card[] {
       id: "loc-store-1",
       title: "Corner Store Job",
       description: "The local corner store is hiring part-time help.",
-      neighborhood: "redlined",
+      location: "store",
       effects: [
         {
           type: "choice",
@@ -308,7 +310,7 @@ export function createDeck(): Card[] {
       title: "Community Center Closure",
       description:
         "Gentrification forces your favorite community center to shut down. You can't study there anymore.",
-      neighborhood: "gentrified",
+      location: "gentrified",
       effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
@@ -316,7 +318,7 @@ export function createDeck(): Card[] {
       title: "Rent Control Rollback",
       description:
         "The city introduces a rent control rollback. Your family's rent spikes.",
-      neighborhood: "gentrified",
+      location: "gentrified",
       effects: [{ type: "gems", magnitude: -1 }],
     },
     {
@@ -324,7 +326,7 @@ export function createDeck(): Card[] {
       title: "Tech Company Move-In",
       description:
         "A new tech company moves in, driving up housing prices. Now, your family has to put off any plans to buy a house.",
-      neighborhood: "gentrified",
+      location: "gentrified",
       effects: [{ type: "gems", magnitude: -1 }],
     },
 
@@ -334,7 +336,7 @@ export function createDeck(): Card[] {
       title: "Private Tutoring",
       description:
         "Your neighbor gets a private tutor and offers you one free tutoring session.",
-      neighborhood: "gentrified",
+      location: "gentrified",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
@@ -342,7 +344,7 @@ export function createDeck(): Card[] {
       title: "Summer Internship",
       description:
         "Your affluent neighbor's parent pulls strings to get you a summer internship.",
-      neighborhood: "gentrified",
+      location: "gentrified",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
@@ -350,7 +352,7 @@ export function createDeck(): Card[] {
       title: "Writing Competition",
       description:
         "You win a creative writing competition and get some prize gems.",
-      neighborhood: "gentrified",
+      location: "gentrified",
       effects: [{ type: "gems", magnitude: 1 }],
     },
     {
@@ -358,7 +360,7 @@ export function createDeck(): Card[] {
       title: "Affordable Housing",
       description:
         "Your family secures one of the new rent-controlled apartments in the neighborhood.",
-      neighborhood: "gentrified",
+      location: "gentrified",
       effects: [{ type: "gems", magnitude: 2 }],
     },
 
@@ -368,7 +370,7 @@ export function createDeck(): Card[] {
       title: "Scholarship Competition",
       description:
         "A scholarship opportunity is available, but preference is given to students from wealthier schools.",
-      neighborhood: "middle-income",
+      location: "middle-income",
       effects: [
         {
           type: "probability",
@@ -385,7 +387,7 @@ export function createDeck(): Card[] {
       title: "AI Layoffs",
       description:
         "One of your parents gets laid off due to an AI boom. The tech company is doing mass layoffs.",
-      neighborhood: "middle-income",
+      location: "middle-income",
       effects: [{ type: "gems", magnitude: -2 }],
     },
 
@@ -395,7 +397,7 @@ export function createDeck(): Card[] {
       title: "PTA Funding",
       description:
         "Local PTA Funds New AP Classes – Your school receives additional funding from the parent association, expanding AP course offerings.",
-      neighborhood: "middle-income",
+      location: "middle-income",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
@@ -403,7 +405,7 @@ export function createDeck(): Card[] {
       title: "Public Park Upgpa",
       description:
         "There are lots of city investments into public park upgpa, you have lots of free recreation options to keep you healthy and happy.",
-      neighborhood: "middle-income",
+      location: "middle-income",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
 
@@ -413,7 +415,7 @@ export function createDeck(): Card[] {
       title: "Connected Parents",
       description:
         "Your affluent neighbor's parent pulls strings to get them a summer internship. The internship will help you attain more information and receive a better grade.",
-      neighborhood: "rich",
+      location: "rich",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
@@ -421,21 +423,21 @@ export function createDeck(): Card[] {
       title: "Private Tutoring",
       description:
         "Your parents can afford a private tutor to help you with difficult subjects.",
-      neighborhood: "rich",
+      location: "rich",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
       id: "rich-p-3",
       title: "SAT Prep Course",
       description: "Your family enrolls you in an expensive SAT prep course.",
-      neighborhood: "rich",
+      location: "rich",
       effects: [{ type: "gpa", magnitude: 2 }],
     },
     {
       id: "rich-p-4",
       title: "Alumni Connections",
       description: "Your parent is an alumnus of a prestigious university.",
-      neighborhood: "rich",
+      location: "rich",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
     {
@@ -443,7 +445,7 @@ export function createDeck(): Card[] {
       title: "Family Connections",
       description:
         "Your parents' connections help you land a prestigious internship.",
-      neighborhood: "rich",
+      location: "rich",
       effects: [{ type: "gpa", magnitude: 2 }],
     },
     {
@@ -451,18 +453,15 @@ export function createDeck(): Card[] {
       title: "Focus on School",
       description:
         "Your parents handle all chores, so you can focus entirely on school.",
-      neighborhood: "rich",
+      location: "rich",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
   ];
 }
 
 // Get a subset of cards by neighborhood
-export function getCardsByNeighborhood(
-  deck: Card[],
-  neighborhood: Neighborhood
-): Card[] {
-  return deck.filter((card) => card.neighborhood === neighborhood);
+export function getCardsByLocation(deck: Card[], location: Location): Card[] {
+  return deck.filter((card) => card.location === location);
 }
 
 // Apply base card effects (gems, gpa) directly to game state
@@ -511,18 +510,16 @@ export function processChoice(
 // Draw a random card from the deck based on neighborhood
 export function drawCard(
   deck: Card[],
-  neighborhood: Neighborhood
+  location: Location
 ): { card: Card | null; remainingDeck: Card[] } {
   if (deck.length === 0) {
     return { card: null, remainingDeck: [] };
   }
 
   // Filter cards by neighborhood neighborhood
-  const neighborhoodCards = deck.filter(
-    (card) => card.neighborhood === neighborhood
-  );
+  const locationCards = getCardsByLocation(deck, location);
 
-  if (neighborhoodCards.length === 0) {
+  if (locationCards.length === 0) {
     // If no cards for this neighborhood, draw any random card
     const randomIndex = Math.floor(Math.random() * deck.length);
     const card = deck[randomIndex];
@@ -534,8 +531,8 @@ export function drawCard(
   }
 
   // Draw a random card from the neighborhood-specific cards
-  const randomIndex = Math.floor(Math.random() * neighborhoodCards.length);
-  const card = neighborhoodCards[randomIndex];
+  const randomIndex = Math.floor(Math.random() * locationCards.length);
+  const card = locationCards[randomIndex];
 
   // Remove the selected card from the deck
   const remainingDeck = deck.filter((c) => c.id !== card.id);

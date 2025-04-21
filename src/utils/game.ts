@@ -1,4 +1,4 @@
-import { Neighborhood } from "~/lib/cards";
+import { Location, Neighborhood } from "~/lib/cards";
 
 export type NeighborhoodTile = "mansion" | "house" | "cottage" | "skyscraper";
 export type ActionTile = "store" | "hotel" | "tutor";
@@ -13,6 +13,17 @@ export type Position = number;
 
 // Direction player can move
 export type Direction = -1 | 1;
+
+// Special tile positions
+export const TILE_POSITION = {
+  MANSION: 0, // Top-left corner
+  STORE: 3, // Top middle
+  HOUSE: 6, // Top-right corner
+  HOTEL: 9, // Right side
+  COTTAGE: 12, // Bottom-right corner
+  TUTOR: 15, // Left side
+  SKYSCRAPER: 18, // Bottom-left corner
+};
 
 // Represents a tile on the board
 export interface Tile {
@@ -35,25 +46,25 @@ export function createBoard(): Board {
 
     // Place buildings according to their positions
     switch (i) {
-      case 0: // Top-left corner
+      case TILE_POSITION.MANSION:
         tileType = "mansion";
         break;
-      case 3: // Top middle
+      case TILE_POSITION.STORE:
         tileType = "store";
         break;
-      case 6: // Top-right corner
+      case TILE_POSITION.HOUSE:
         tileType = "house";
         break;
-      case 11: // Right side
+      case TILE_POSITION.HOTEL:
         tileType = "hotel";
         break;
-      case 12: // Bottom-right corner
+      case TILE_POSITION.COTTAGE:
         tileType = "cottage";
         break;
-      case 18: // Bottom-left corner
+      case TILE_POSITION.SKYSCRAPER:
         tileType = "skyscraper";
         break;
-      case 15: // Left side
+      case TILE_POSITION.TUTOR:
         tileType = "tutor";
         break;
     }
@@ -80,15 +91,22 @@ export function getNextPosition(
   return nextPos >= 0 ? nextPos : boardSize + nextPos;
 }
 
-export function getNeighborhoodFromPosition(position: number): Neighborhood {
-  if (position >= 0 && position <= 6) {
-    return "rich"; // Top side of board (positions 0-6)
-  } else if (position >= 7 && position <= 11) {
-    return "middle-income"; // Right side of board (positions 7-11)
-  } else if (position >= 12 && position <= 18) {
-    return "gentrified"; // Bottom side of board (positions 12-18)
-  } else {
-    return "redlined"; // Left side of board (positions 19-23)
+export function getLocationFromPosition(position: number): Location {
+  switch (true) {
+    case position === TILE_POSITION.HOTEL:
+      return "hotel";
+    case position === TILE_POSITION.STORE:
+      return "store";
+    case position === TILE_POSITION.TUTOR:
+      return "tutor";
+    case position >= 0 && position <= 6:
+      return "rich"; // Top side of board (positions 0-6)
+    case position >= 7 && position <= 11:
+      return "middle-income"; // Right side of board (positions 7-11)
+    case position >= 12 && position <= 18:
+      return "gentrified"; // Bottom side of board (positions 12-18)
+    default:
+      return "redlined"; // Left side of board (positions 19-23)
   }
 }
 
@@ -98,14 +116,14 @@ export function getPositionFromNeighborhood(
 ): number {
   switch (neighborhood) {
     case "rich":
-      return 0;
+      return TILE_POSITION.MANSION;
     case "gentrified":
-      return 6;
+      return TILE_POSITION.SKYSCRAPER;
     case "redlined":
-      return 12;
+      return TILE_POSITION.HOUSE;
     case "middle-income":
-      return 18;
+      return TILE_POSITION.COTTAGE;
     default:
-      return 0;
+      return TILE_POSITION.MANSION;
   }
 }
