@@ -74,7 +74,7 @@ const Step2 = () => {
       {/* Neighborhood */}
       <div className="relative flex flex-col items-center gap-2 pt-3 pb-1 overflow-hidden rounded-2xl h-36 shadow-[0px_-2px_28.6px_0px_#C6D86B_inset]">
         <img
-          src="/images/background.png"
+          src="/images/bg.webp"
           alt="background"
           className="absolute inset-0 bg-cover -z-10"
         />
@@ -85,9 +85,9 @@ const Step2 = () => {
           </p>
         </div>
         <img
-          src={`/building/${spawnConfig.building}.png`}
+          src={`/building/${spawnConfig.building}.webp`}
           alt={neighborhood}
-          className="w-20"
+          className="size-20"
         />
       </div>
 

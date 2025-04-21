@@ -42,6 +42,7 @@ interface GameState {
   applyEffects: (effects: BaseCardEffect[]) => void;
   handleRoll: (roll: number) => BaseCardEffect[];
   handleChoice: (choiceIndex: number) => BaseCardEffect[];
+  handleExam: (result: "pass" | "fail") => void;
   processCard: () => void;
   resetGame: () => void;
   changeState: (state: "idle" | "playing" | "game-over") => void;
@@ -87,6 +88,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     set((state) => {
       const { card, remainingDeck } = drawCard(state.deck, state.location);
       drawCardEvent();
+
+      console.log(`DEBUG: drawCard`, card);
 
       return {
         deck: remainingDeck,
@@ -150,7 +153,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       // Process the roll and get the resulting effects
       const effects = processRoll(probEffect, roll);
       get().applyEffects(effects);
-      set({ panel: "effects" });
+      set({
+        panel: "effects",
+        currentCard: { ...currentCard, finalOutcome: effects },
+      });
       setTimeout(() => set({ panel: "move" }), PANEL_TRANSITION_DURATION);
       return effects;
     }
@@ -178,10 +184,24 @@ export const useGameStore = create<GameState>((set, get) => ({
         panel: "effects",
       }));
 
+      setTimeout(() => set({ panel: "move" }), PANEL_TRANSITION_DURATION);
+
       return effects;
     }
 
     return [];
+  },
+
+  handleExam: (result: "pass" | "fail") => {
+    const { gpa, gems } = get();
+    if (result === "pass") {
+      get().updateGPA(gpa);
+      get().changeState("idle");
+      get().resetGame();
+    } else {
+      set({ gpa: Math.round(gpa / 2) });
+      set({ gems: Math.round(gems / 2) });
+    }
   },
 
   closeCard: () => {

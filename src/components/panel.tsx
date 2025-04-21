@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useGameStore } from "~/lib/game-store";
 import { BaseCardEffect } from "~/lib/cards";
 import { cn, TILE_POSITION } from "~/utils";
+import { takeBusEvent } from "~/lib/events";
 
 export const Panel = () => {
   const panelType = useGameStore((state) => state.panel);
@@ -23,8 +24,18 @@ export const Panel = () => {
 
   return (
     <>
-      <div className="relative z-20 flex flex-col items-center justify-center h-full overflow-hidden bg-white border-l w-80 border-neutral-200">
-        {panel}
+      <div className="relative z-20 overflow-hidden bg-white border-l w-80 border-neutral-200">
+        <AnimatePresence mode="wait">
+          <motion.div
+            className="flex flex-col items-center justify-center h-full"
+            key={panelType}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {panel}
+          </motion.div>
+        </AnimatePresence>
       </div>
       <BusStopPanel />
     </>
@@ -194,7 +205,7 @@ export const EffectImage = ({ type, size = "md" }: EffectImageProps) => {
   if (isGems)
     return (
       <img
-        src="/images/gem.png"
+        src="/images/gem.webp"
         alt="Gem"
         className={cn(
           "size-8",
@@ -301,6 +312,10 @@ const MovePanel = () => {
     setStatus("idle");
   };
 
+  const handleSkipReveal = () => {
+    setStatus("pending_action");
+  };
+
   return (
     <AnimatePresence mode="wait">
       {status === "idle" && (
@@ -341,6 +356,7 @@ const MovePanel = () => {
           exit={{ opacity: 0, filter: "blur(4px)" }}
           transition={{ duration: 0.3 }}
           className="font-semibold text-neutral-500"
+          onClick={handleSkipReveal}
         >
           You picked
         </motion.div>
@@ -355,6 +371,7 @@ const MovePanel = () => {
             filter: "blur(4px)",
             transition: { duration: 0.3 },
           }}
+          onClick={handleSkipReveal}
           transition={{ duration: 0.5 }}
           className="flex items-center font-semibold justify-center italic text-5xl mt-0.5 mb-2"
         >
@@ -380,8 +397,19 @@ const MovePanel = () => {
 
 const BusStopPanel = () => {
   const position = useGameStore((state) => state.position);
+  const gpa = useGameStore((state) => state.gpa);
 
   const hasBusStop = TILE_POSITION.BUS_STOP.includes(position);
+
+  const text = useMemo(() => {
+    if (gpa >= 4) return "Ready to take final exam?";
+
+    return (
+      <span className="flex items-center gap-1">
+        You need at least 4 <span className="mx-0.5">🧠</span> for exam
+      </span>
+    );
+  }, [gpa]);
 
   return (
     <AnimatePresence initial={false}>
@@ -397,9 +425,13 @@ const BusStopPanel = () => {
           transition={{ duration: 0.4, type: "spring", bounce: 0 }}
         >
           <span className="font-semibold leading-none text-neutral-500">
-            Ready to take final exam?
+            {text}
           </span>
-          <Button className="scale-[0.6] py-1 -mx-6 -mt-0.5 text-xl ">
+          <Button
+            className="scale-[0.6] py-1 -mx-6 -mt-0.5 text-xl "
+            onClick={takeBusEvent}
+            disabled={gpa < 4}
+          >
             Take a bus
           </Button>
         </motion.div>

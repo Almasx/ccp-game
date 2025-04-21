@@ -9,7 +9,7 @@ export type Location = Neighborhood | CommercialArea;
 export type EffectType = "gems" | "gpa" | "choice" | "probability";
 
 // Effect magnitude (-3 to +3, where negative is bad, positive is good)
-export type EffectMagnitude = -3 | -2 | -1 | 0 | 1 | 2 | 3;
+export type EffectMagnitude = number;
 
 // Card interface
 export interface Card {
@@ -25,7 +25,6 @@ export interface Card {
 export interface BaseCardEffect {
   type: "gems" | "gpa";
   magnitude: EffectMagnitude;
-  description?: string;
 }
 
 // Effect structure for probability-based effects
@@ -39,7 +38,6 @@ export interface ProbabilityEffect {
 // Effect structure for choice-based effects
 export interface ChoiceEffect {
   type: "choice";
-  description?: string;
   // Options the player can choose between
   options: {
     label: string;
@@ -64,7 +62,7 @@ export interface SpawnConfig {
 export const spawnConfigs: SpawnConfig[] = [
   {
     id: "smogshire",
-    name: "Smogshire Student",
+    name: "Smogshire",
     neighborhood: "redlined",
     building: "cottage",
     initialGems: 80,
@@ -73,7 +71,7 @@ export const spawnConfigs: SpawnConfig[] = [
   },
   {
     id: "maplecrest",
-    name: "Maplecrest Student",
+    name: "Maplecrest",
     neighborhood: "middle-income",
     building: "house",
     initialGems: 120,
@@ -82,7 +80,7 @@ export const spawnConfigs: SpawnConfig[] = [
   },
   {
     id: "goldcrest",
-    name: "Goldcrest Student",
+    name: "Goldcrest",
     neighborhood: "rich",
     building: "skyscraper",
     initialGems: 150,
@@ -91,7 +89,7 @@ export const spawnConfigs: SpawnConfig[] = [
   },
   {
     id: "oldbrick",
-    name: "Oldbrick Student",
+    name: "Oldbrick",
     neighborhood: "gentrified",
     building: "mansion",
     initialGems: 100,
@@ -137,8 +135,7 @@ export function createDeck(): Card[] {
       effects: [
         {
           type: "probability",
-          description:
-            "Roll a die. Roll a 4 or higher for better healthcare coverage.",
+          description: ">= 4 get better healthcare coverage",
           getOutcome: (roll) => {
             // Roll 4 or higher for better outcome
             return roll >= 4
@@ -212,9 +209,7 @@ export function createDeck(): Card[] {
       description:
         "Your uninsured family member needs urgent medical care, and you have to help.",
       location: "redlined",
-      effects: [
-        { type: "gems", magnitude: -20 },
-      ],
+      effects: [{ type: "gems", magnitude: -20 }],
     },
     {
       id: "red-n-11",
@@ -222,9 +217,7 @@ export function createDeck(): Card[] {
       description:
         "Your parent picks up extra shifts, leaving you to manage household responsibilities.",
       location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: -1 },
-      ],
+      effects: [{ type: "gpa", magnitude: -1 }],
     },
     {
       id: "red-n-12",
@@ -232,9 +225,7 @@ export function createDeck(): Card[] {
       description:
         "Your sibling gets suspended from school, and your parents expect you to help them keep up.",
       location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: -0.5 },
-      ],
+      effects: [{ type: "gpa", magnitude: -0.5 }],
     },
     {
       id: "red-n-13",
@@ -242,9 +233,7 @@ export function createDeck(): Card[] {
       description:
         "Your family can’t afford rent anymore, so you move into a relative’s small apartment.",
       location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: -0.5 },
-      ],
+      effects: [{ type: "gpa", magnitude: -0.5 }],
     },
     {
       id: "red-n-14",
@@ -252,9 +241,7 @@ export function createDeck(): Card[] {
       description:
         "Your family can’t afford the internet, making homework difficult.",
       location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: -1 },
-      ],
+      effects: [{ type: "gpa", magnitude: -1 }],
     },
 
     // redlined Neighborhood - Positive Cards
@@ -294,12 +281,9 @@ export function createDeck(): Card[] {
     {
       id: "red-p-5",
       title: "Small Scholarship",
-      description:
-        "You received a small scholarship!",
+      description: "You received a small scholarship!",
       location: "redlined",
-      effects: [
-        { type: "gems", magnitude: 8 },
-      ],
+      effects: [{ type: "gems", magnitude: 8 }],
     },
     {
       id: "red-p-6",
@@ -307,9 +291,7 @@ export function createDeck(): Card[] {
       description:
         "You and your friends start a study group that meets weekly at the library.",
       location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: 0.5 },
-      ],
+      effects: [{ type: "gpa", magnitude: 0.5 }],
     },
     {
       id: "red-p-7",
@@ -317,9 +299,7 @@ export function createDeck(): Card[] {
       description:
         "You’re selected for a free STEM camp hosted by a nearby university.",
       location: "redlined",
-      effects: [
-        { type: "gpa", magnitude: 0.5 },
-      ],
+      effects: [{ type: "gpa", magnitude: 0.5 }],
     },
 
     // Special Location Cards - Hotel and Cornershop
@@ -448,48 +428,43 @@ export function createDeck(): Card[] {
       location: "gentrified",
       effects: [{ type: "gems", magnitude: 10 }],
     },
+
     {
-      id: "gen-p-4",
-      title: "Affordable Housing",
+      id: "gen-p-5",
+      title: "AP Class Enrollment",
       description:
-        "Your family secures one of the new rent-controlled apartments in the neighborhood.",
+        "Your public school receives a funding boost, but demand for advanced classes still outpaces supply. Competition is fierce.",
       location: "gentrified",
-      effects: [{ type: "gems", magnitude: 10 }],
-    },
-    {
-  id: "gen-p-5",
-  title: "AP Class Enrollment",
-  description:
-    "Your public school receives a funding boost, but demand for advanced classes still outpaces supply. Competition is fierce.",
-  location: "greenlined",
-  effects: [
-    {
-      type: "probability",
-      description: "Roll a die. Roll a 4 or higher to enroll in the AP class.",
-      getOutcome: (roll) => {
-        // Roll 4 or higher for positive outcome
-        return roll >= 4
-          ? [
+      effects: [
+        {
+          type: "probability",
+          description:
+            "Roll a die. Roll a 4 or higher to enroll in the AP class.",
+          getOutcome: (roll) => {
+            if (roll >= 4) {
+              return [
+                {
+                  type: "gpa",
+                  magnitude: +2,
+                  description:
+                    "You made it into the AP class! Your transcript stands out.",
+                },
+              ];
+            }
+
+            return [
               {
-                type: "grades",
-                magnitude: +2,
+                type: "gpa",
+                magnitude: -1,
                 description:
                   "You made it into the AP class! Your transcript stands out.",
               },
-            ]
-          : [
-              {
-                type: "grades",
-                magnitude: -1,
-                description:
-                  "The class filled up before you could register. You miss out on college credit opportunities.",
-              },
             ];
-      },
+          },
+        },
+      ],
     },
-  ],
-}
-{
+    {
       id: "gen-p-6",
       title: "Private Tutoring",
       description:
@@ -497,7 +472,7 @@ export function createDeck(): Card[] {
       location: "gentrified",
       effects: [{ type: "gpa", magnitude: 1 }],
     },
-{
+    {
       id: "gen-p-7",
       title: "New laptop",
       description:
@@ -531,7 +506,6 @@ export function createDeck(): Card[] {
       location: "middle-income",
       effects: [{ type: "gems", magnitude: -2 }],
     },
-    
 
     // Middle Income Positive
     {

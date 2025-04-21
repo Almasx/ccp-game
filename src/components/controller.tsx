@@ -26,7 +26,7 @@ const Gems = () => {
   const image = useMemo(
     () => (
       <img
-        src="/images/gem.png"
+        src="/images/gem.webp"
         alt="Gem"
         width={28}
         height={28}
@@ -62,7 +62,7 @@ const GPA = () => {
   return (
     <div className="flex flex-col items-center w-full overflow-hidden group/gpa border-neutral-300 h-1/2">
       <span className="text-[#F25885] text-2xl font-semibold italic mt-1 group-hover/gpa:scale-90 transition-all duration-300 group-hover/gpa:opacity-50">
-        {gpa}
+        {gpa.toFixed(2)}
       </span>
       <div className="relative flex items-center -mt-1">
         <span className="text-2xl translate-x-2 rotate-6 transition-transform duration-300 transform-gpu group-hover/gpa:rotate-12 group-hover/gpa:-translate-y-1.5 group-hover/gpa:translate-x-1.5">

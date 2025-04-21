@@ -1,4 +1,10 @@
-import { cn, Tile as TileType, createBoard, TILE_POSITION } from "~/utils";
+import {
+  cn,
+  Tile as TileType,
+  createBoard,
+  TILE_POSITION,
+  getLocationFromPosition,
+} from "~/utils";
 import { useGameStore } from "~/lib/game-store";
 
 const board = createBoard();
@@ -11,7 +17,8 @@ export function Board() {
   const left = board.slice(19).reverse();
 
   return (
-    <div className="inline-block space-y-2.5">
+    <div className="inline-block space-y-2.5 relative">
+      <School />
       {/* Top row */}
       <div className="flex justify-center gap-2.5">
         {top.map((tile) => (
@@ -55,6 +62,8 @@ interface TileProps {
 function Tile({ tile, direction }: TileProps) {
   const isActive = useGameStore((state) => state.position === tile.position);
 
+  const location = getLocationFromPosition(tile.position).at(0)?.toUpperCase();
+
   const isBuilding = tile.type !== "regular";
   const isBigBuilding = tile.type === "mansion" || tile.type === "skyscraper";
   const hasBusStop = TILE_POSITION.BUS_STOP.includes(tile.position);
@@ -71,14 +80,19 @@ function Tile({ tile, direction }: TileProps) {
       {hasBusStop && <BusStop direction={direction} />}
       <div
         className={cn(
-          "size-full bg-[#FFF9DE] relative",
+          "size-full bg-[#FFF9DE] relative flex items-center justify-center",
           tile.size === "lg" ? "rounded-3xl" : "rounded-2xl",
           "shadow-[inset_0px_2px_4px_0px_rgba(255,255,255,0.25),inset_0px_-2px_4px_0px_rgba(237,219,147,1)]"
         )}
       >
+        {!isBuilding && (
+          <div className="text-2xl font-bold text-[#F0E5B7] italic">
+            {location}
+          </div>
+        )}
         {isBuilding && (
           <img
-            src={`/building/${tile.type}.png`}
+            src={`/building/${tile.type}.webp`}
             alt={tile.type}
             className={cn(
               "absolute left-1/2 -translate-x-1/2 object-contain",
@@ -89,7 +103,7 @@ function Tile({ tile, direction }: TileProps) {
         )}
         {isActive && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <img src="/images/player.png" alt="Player" className="w-10" />
+            <img src="/images/player.webp" alt="Player" className="size-10" />
           </div>
         )}
       </div>
@@ -117,7 +131,15 @@ function BusStop({ direction }: BusStopProps) {
         "duration-200 ease-in-out group-hover/tile:brightness-105 "
       )}
     >
-      <img src="/building/bus-stop.png" alt="Bus Stop" className="w-14" />
+      <img src="/building/bus.webp" alt="Bus Stop" className="size-14" />
+    </div>
+  );
+}
+
+function School() {
+  return (
+    <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 size-36 bg-[#FEF5CA]/40 rounded-4xl border-[6px] border-[#B4C957] flex items-center justify-center">
+      <img src="/building/school.webp" alt="School" className="size-24" />
     </div>
   );
 }
