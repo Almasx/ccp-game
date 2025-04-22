@@ -46,6 +46,7 @@ export const Exam = () => {
   const handleRestart = useCallback(() => {
     handleExam(havePassed ? "pass" : "fail");
     setIsOpen(false);
+    setStep("idle");
   }, [havePassed, handleExam]);
 
   const currentStep = useMemo(() => {

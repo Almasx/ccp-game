@@ -81,7 +81,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   updateGPA: (amount) =>
     set((state) => ({
-      gpa: Math.min(4.0, Math.max(0, state.gpa + amount)),
+      gpa: Math.max(0, state.gpa + amount),
     })),
 
   drawCard: () => {
@@ -125,7 +125,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       );
 
       get().applyEffects(baseEffects);
-      setTimeout(() => set({ panel: "move" }), PANEL_TRANSITION_DURATION);
+      setTimeout(() => set({ panel: "move" }), PANEL_TRANSITION_DURATION * 2);
     }
 
     // Update the panel
