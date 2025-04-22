@@ -298,7 +298,7 @@ const MovePanel = () => {
 
   const handleRoll = () => {
     setStatus("reveal");
-    setNumber(1);
+    setNumber(Math.floor(Math.random() * 6) + 1);
     setTimeout(() => setStatus("pending_action"), 2000);
   };
 
