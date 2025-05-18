@@ -26,7 +26,7 @@ const Gems = () => {
   const image = useMemo(
     () => (
       <img
-        src="/images/gem.webp"
+        src="/images/gem.png"
         alt="Gem"
         width={28}
         height={28}

@@ -205,7 +205,7 @@ export const EffectImage = ({ type, size = "md" }: EffectImageProps) => {
   if (isGems)
     return (
       <img
-        src="/images/gem.webp"
+        src="/images/gem.png"
         alt="Gem"
         className={cn(
           "size-8",
